@@ -9,29 +9,32 @@ import java.util.logging.Logger;
 
 public class Conexion {
 
-    private static final String URL = "jdbc:mysql://localhost/";
-    private static final String DB = "universidadulp_trasversal";
-    private static final String USUARIO = "root";
-    private static String PASSWORD = "";
-
-    private static Connection connection;
+    private static Conexion connection = null;
 
     private Conexion() {
+        try {
+            Class.forName("org.mariadb.jdbc.Driver");
+
+        } catch (ClassNotFoundException e) {
+            JOptionPane.showMessageDialog(null, "Error al cargar Driver");
+
+        }
     }
 
     public static Connection getConexion() {
+        Connection con = null;
+
         if (connection == null) {
-            try {
-                Class.forName("org.mariadb.jdbc.Drivers");
-                connection = DriverManager.getConnection(URL+DB+"?useLegacyDatatimeCode=false&serverTimezone=UTC"
-                        +"&user="+USUARIO+"&password="+PASSWORD);
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "Error: error al conectars a la base de datos");
-            } catch (ClassNotFoundException c) {
-                JOptionPane.showMessageDialog(null, "Error: error al cargar los drivers");
-            }
+            connection = new Conexion();
         }
-        return connection;
+
+        try {
+            con = DriverManager.getConnection("jdbc:mariadb://localhost/universidadulp_trasversal", "root", "");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error: error al conectarse a la base de datos");
+        }
+
+        return con;
     }
 
 }
