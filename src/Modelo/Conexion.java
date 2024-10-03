@@ -1,4 +1,4 @@
-package AccesoADatos;
+package Modelo;
 
 import javax.swing.JOptionPane;
 import java.sql.Connection;

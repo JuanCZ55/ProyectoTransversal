@@ -1,8 +1,9 @@
-package AccesoADatos;
+package Persistencia;
 
-import Entidades.Alumno;
-import Entidades.Inscripcion;
-import Entidades.Materia;
+import Modelo.Conexion;
+import Modelo.Alumno;
+import Modelo.Inscripcion;
+import Modelo.Materia;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

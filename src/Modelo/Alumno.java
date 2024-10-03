@@ -1,4 +1,4 @@
-package Entidades;
+package Modelo;
 
 import java.time.LocalDate;
 
@@ -80,7 +80,7 @@ public class Alumno {
 
     @Override
     public String toString() {
-        return "Id Alumno: " + idAlumno + " Nombre: " + nombre + " " + apellido+" Dni: "+dni;
+        return "Id Alumno: " + idAlumno + "\nNombre: " + nombre + " " + apellido+"\nDni: "+dni;
     }
 
 }

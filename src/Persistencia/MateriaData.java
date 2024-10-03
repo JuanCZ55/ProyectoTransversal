@@ -1,6 +1,7 @@
-package AccesoADatos;
+package Persistencia;
 
-import Entidades.Materia;
+import Modelo.Conexion;
+import Modelo.Materia;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

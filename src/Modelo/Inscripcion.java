@@ -1,4 +1,4 @@
-package Entidades;
+package Modelo;
 public class Inscripcion {
    private int idInscripcion;
    private Alumno alumno;

@@ -1,7 +1,8 @@
-package AccesoADatos;
+package Persistencia;
 
+import Modelo.Conexion;
 import java.sql.*;
-import Entidades.Alumno;
+import Modelo.Alumno;
 import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,17 +48,15 @@ public class AlumnoData {
             ps.setString(2, alum.getApellido());
             ps.setString(3, alum.getNombre());
             ps.setDate(4, Date.valueOf(alum.getFechaNac()));
+            ps.setInt(5, alum.getIdAlumno());
             int exito = ps.executeUpdate();
             if (exito == 1) {
                 JOptionPane.showMessageDialog(null, "Alumno Modificado");
-
-            }           
- ps.close();
-
+            }
+            ps.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al acceder a la tabla alumnos");
         }
-
     }
 
     public void bajaLogica(int id) {
@@ -112,5 +111,20 @@ public class AlumnoData {
         }
         return alumno;
     }
-
+    
+    public void eliminarAlumno(int id) {
+        String sql = "DELETE FROM alumno WHERE id_Alumno=?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            int exito = ps.executeUpdate();
+            if (exito == 1) {
+                JOptionPane.showMessageDialog(null, "Alumno Eliminado");
+            }else{
+                JOptionPane.showMessageDialog(null, "No se encontro el alumno");
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla alumnos");
+        }
+    }
 }
