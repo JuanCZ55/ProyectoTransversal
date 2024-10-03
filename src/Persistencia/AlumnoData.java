@@ -9,7 +9,6 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import org.mariadb.jdbc.Connection;
 
-
 public class AlumnoData {
 
     private Connection con = null;
@@ -68,6 +67,8 @@ public class AlumnoData {
             if (exito == 1) {
                 JOptionPane.showMessageDialog(null, "Alumno Eliminado");
             }
+            ps.close();
+
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al acceder a la tabla alumnos");
         }
@@ -82,6 +83,8 @@ public class AlumnoData {
             if (exito == 1) {
                 JOptionPane.showMessageDialog(null, "Alumno Activo");
             }
+            ps.close();
+
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al acceder a la tabla alumnos");
         }
@@ -111,7 +114,7 @@ public class AlumnoData {
         }
         return alumno;
     }
-    
+
     public void eliminarAlumno(int id) {
         String sql = "DELETE FROM alumno WHERE id_Alumno=?";
         try {
@@ -120,9 +123,11 @@ public class AlumnoData {
             int exito = ps.executeUpdate();
             if (exito == 1) {
                 JOptionPane.showMessageDialog(null, "Alumno Eliminado");
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(null, "No se encontro el alumno");
             }
+            ps.close();
+
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al acceder a la tabla alumnos");
         }

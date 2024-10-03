@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="Multi-file class diagram">
+  <ClassDiagramComponents>
+    <Class name="Alumno" package="Modelo" visibility="public" xPosition="9.0" yPosition="143.0">
+      <Fields>
+        <Field name="idAlumno" type="int" visibility="private"/>
+        <Field name="dni" type="int" visibility="private"/>
+        <Field name="apellido" type="String" visibility="private"/>
+        <Field name="fechaNac" type="LocalDate" visibility="private"/>
+        <Field name="activo" type="boolean" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+        <Constructor visibility="public">
+          <Argument type="int" name="idAlumno"/>
+          <Argument type="int" name="dni"/>
+          <Argument type="String" name="apellido"/>
+          <Argument type="String" name="nombre"/>
+          <Argument type="LocalDate" name="fechaNac"/>
+          <Argument type="boolean" name="activo"/>
+        </Constructor>
+        <Constructor visibility="public">
+          <Argument type="int" name="dni"/>
+          <Argument type="String" name="apellido"/>
+          <Argument type="String" name="nombre"/>
+          <Argument type="LocalDate" name="fechaNac"/>
+          <Argument type="boolean" name="activo"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getIdAlumno" returnType="int" visibility="public"/>
+        <Method name="setIdAlumno" returnType="void" visibility="public">
+          <Argument type="int" name="idAlumno"/>
+        </Method>
+        <Method name="getDni" returnType="int" visibility="public"/>
+        <Method name="setDni" returnType="void" visibility="public">
+          <Argument type="int" name="dni"/>
+        </Method>
+        <Method name="getApellido" returnType="String" visibility="public"/>
+        <Method name="setApellido" returnType="void" visibility="public">
+          <Argument type="String" name="apellido"/>
+        </Method>
+        <Method name="getNombre" returnType="String" visibility="public"/>
+        <Method name="setNombre" returnType="void" visibility="public">
+          <Argument type="String" name="nombre"/>
+        </Method>
+        <Method name="getFechaNac" returnType="LocalDate" visibility="public"/>
+        <Method name="setFechaNac" returnType="void" visibility="public">
+          <Argument type="LocalDate" name="fechaNac"/>
+        </Method>
+        <Method name="isActivo" returnType="boolean" visibility="public"/>
+        <Method name="setActivo" returnType="void" visibility="public">
+          <Argument type="boolean" name="activo"/>
+        </Method>
+        <Method name="toString" returnType="String" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="AlumnoData" package="Persistencia" visibility="public" xPosition="711.0" yPosition="267.0">
+      <Fields>
+        <Field name="con" type="Connection" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="guardarAlumno" returnType="void" visibility="public">
+          <Argument type="Alumno" name="alum"/>
+        </Method>
+        <Method name="actualizarAlumno" returnType="void" visibility="public">
+          <Argument type="Alumno" name="alum"/>
+        </Method>
+        <Method name="bajaLogica" returnType="void" visibility="public">
+          <Argument type="int" name="id"/>
+        </Method>
+        <Method name="altaLogica" returnType="void" visibility="public">
+          <Argument type="int" name="id"/>
+        </Method>
+        <Method name="buscarAlumno" returnType="Alumno" visibility="public">
+          <Argument type="int" name="id"/>
+        </Method>
+        <Method name="eliminarAlumno" returnType="void" visibility="public">
+          <Argument type="int" name="id"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Conexion" package="Modelo" visibility="public" xPosition="1000.0" yPosition="38.0">
+      <Fields>
+        <Field name="connection" type="Conexion" visibility="private" isStatic="true"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="private"/>
+      </Constructors>
+      <Methods>
+        <Method name="getConexion" returnType="Connection" visibility="public" isStatic="true"/>
+      </Methods>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <HasRelation name="" source="Persistencia.AlumnoData" target="Modelo.Alumno" type="Default" sourceCardinality="0..1" targetCardinality="1..*" collectionType="List"/>
+    <HasRelation name="connection" source="Modelo.Conexion" target="Modelo.Conexion" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+  </ClassDiagramRelations>
+</ClassDiagram>

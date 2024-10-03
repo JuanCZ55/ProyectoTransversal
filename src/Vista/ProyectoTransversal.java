@@ -12,7 +12,7 @@ public class ProyectoTransversal {
     public static void main(String[] args) {
         Scanner entrada = new Scanner(System.in);
         int aux;
-        Alumno juanc = new Alumno(43057480, "Zegarra", "Juan Cruz", LocalDate.of(2000, 5, 9), true);
+        Alumno juanc = new Alumno(44567879, "Zegarra", "Juan Cruz", LocalDate.of(2000, 5, 9), true);
         Alumno ariel = new Alumno(44993241, "Miranda Salmin", "Ariel Ismael", LocalDate.of(2003, 9, 27), true);
         Alumno leandro = new Alumno(00000000, "Troncoso", "Leandro", LocalDate.of(2000, 2, 9), true);
         Alumno zoe = new Alumno(00000001, "Lucero", "Zoe", LocalDate.of(2001, 2, 9), true);
