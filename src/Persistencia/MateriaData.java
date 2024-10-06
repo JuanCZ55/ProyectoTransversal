@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import org.mariadb.jdbc.Connection;
 
 public class MateriaData {
+
     private Connection con = null;
 
     public MateriaData() {
@@ -25,10 +26,9 @@ public class MateriaData {
             ps.setBoolean(3, materia.isActivo());
             ps.executeUpdate();
 
-            
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) {
-                materia.setIdMateria(rs.getInt(1));  
+                materia.setIdMateria(rs.getInt(1));
                 JOptionPane.showMessageDialog(null, "Materia guardada exitosamente.");
             }
 
@@ -37,8 +37,7 @@ public class MateriaData {
             JOptionPane.showMessageDialog(null, "Error al guardar la materia: " + ex.getMessage());
         }
     }
-   
-   
+
     public void actualizarMateria(Materia mate) {
         String sql = "UPDATE materia SET nombre=?, año_De_cursada=? WHERE id_Materia=?";
         try {
@@ -62,7 +61,7 @@ public class MateriaData {
             ps.setInt(1, id);
             int exito = ps.executeUpdate();
             if (exito == 1) {
-                JOptionPane.showMessageDialog(null, "Se dio de baja la Materia "+id);
+                JOptionPane.showMessageDialog(null, "Se dio de baja la Materia " + id);
             }
             ps.close();
 
@@ -78,7 +77,7 @@ public class MateriaData {
             ps.setInt(1, id);
             int exito = ps.executeUpdate();
             if (exito == 1) {
-                JOptionPane.showMessageDialog(null, "Se activo la Materia "+id);
+                JOptionPane.showMessageDialog(null, "Se activo la Materia " + id);
             }
             ps.close();
 
@@ -87,23 +86,21 @@ public class MateriaData {
         }
     }
 
-    public Materia buscarAlumno(int id) {
-        String sql = "SELECT dni, apellido, nombre, fecha_Nacimiento FROM alumno WHERE id_Alumno = ? AND estado = 1";
+    public Materia buscarMateria(int id) {
+        String sql = "SELECT nombre, año_De_cursada, estado FROM materia WHERE id_Materia=?";
         Materia mate = null;
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                mate = new Alumno();
-                mate.setIdAlumno(id);
-                mate.setDni(rs.getInt("dni"));
-                mate.setApellido(rs.getString("apellido"));
+                mate = new Materia();
+                mate.setIdMateria(id);
                 mate.setNombre(rs.getString("nombre"));
-                mate.setFechaNac(rs.getDate("fecha_Nacimiento").toLocalDate());
-                mate.setActivo(true);
+                mate.setAnioMateria(rs.getInt("año_De_cursada"));
+                mate.setActivo(rs.getInt("estado") == 1);
             } else {
-                JOptionPane.showMessageDialog(null, "No existe ese Alumno");
+                JOptionPane.showMessageDialog(null, "No existe esa Materia");
             }
             ps.close();
         } catch (SQLException ex) {
@@ -112,21 +109,21 @@ public class MateriaData {
         return mate;
     }
 
-    public void eliminarAlumno(int id) {
-        String sql = "DELETE FROM alumno WHERE id_Alumno=?";
+    public void eliminarMateria(int id) {
+        String sql = "DELETE FROM materia WHERE id_Materia=?";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, id);
             int exito = ps.executeUpdate();
             if (exito == 1) {
-                JOptionPane.showMessageDialog(null, "Alumno Eliminado");
+                JOptionPane.showMessageDialog(null, "Materia Eliminado");
             } else {
-                JOptionPane.showMessageDialog(null, "No se encontro el alumno");
+                JOptionPane.showMessageDialog(null, "No se encontro la Materia");
             }
             ps.close();
 
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla alumnos");
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla materia");
         }
     }
 }
