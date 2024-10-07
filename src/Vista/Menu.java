@@ -1,5 +1,6 @@
 package Vista;
 
+import java.time.Clock;
 import javax.swing.JFrame;
 
 public class Menu extends javax.swing.JFrame {
@@ -44,16 +45,21 @@ public class Menu extends javax.swing.JFrame {
         jDesktopPane1.setLayout(jDesktopPane1Layout);
         jDesktopPane1Layout.setHorizontalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 350, Short.MAX_VALUE)
+            .addGap(0, 821, Short.MAX_VALUE)
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 260, Short.MAX_VALUE)
+            .addGap(0, 600, Short.MAX_VALUE)
         );
 
         jMAlumno.setText("Alumno");
 
         jMIFormAlumno.setText("Formulario de Alumno");
+        jMIFormAlumno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMIFormAlumnoActionPerformed(evt);
+            }
+        });
         jMAlumno.add(jMIFormAlumno);
 
         jMenuBar1.add(jMAlumno);
@@ -61,6 +67,11 @@ public class Menu extends javax.swing.JFrame {
         jMMateria.setText("Materia");
 
         jMIFormMateria.setText("Formulario de materia");
+        jMIFormMateria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMIFormMateriaActionPerformed(evt);
+            }
+        });
         jMMateria.add(jMIFormMateria);
 
         jMenuBar1.add(jMMateria);
@@ -68,9 +79,19 @@ public class Menu extends javax.swing.JFrame {
         jMAdministracion.setText("Administracion");
 
         jMeIInscripciones.setText("Manejo de inscripciones");
+        jMeIInscripciones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMeIInscripcionesActionPerformed(evt);
+            }
+        });
         jMAdministracion.add(jMeIInscripciones);
 
         jMINotas.setText("Manipulacion de notas");
+        jMINotas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMINotasActionPerformed(evt);
+            }
+        });
         jMAdministracion.add(jMINotas);
 
         jMenuBar1.add(jMAdministracion);
@@ -78,11 +99,21 @@ public class Menu extends javax.swing.JFrame {
         jMConsultas.setText("Consultas");
 
         jMIAlumMate.setText("Alumnos por materia");
+        jMIAlumMate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMIAlumMateActionPerformed(evt);
+            }
+        });
         jMConsultas.add(jMIAlumMate);
 
         jMenuBar1.add(jMConsultas);
 
         jMSalir.setText("Salir");
+        jMSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMSalirActionPerformed(evt);
+            }
+        });
         jMenuBar1.add(jMSalir);
 
         setJMenuBar(jMenuBar1);
@@ -91,15 +122,59 @@ public class Menu extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jDesktopPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jDesktopPane1)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jMIFormAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIFormAlumnoActionPerformed
+        jDesktopPane1.removeAll();
+        jDesktopPane1.repaint();
+        GestionAlumno gestionAlumno = new GestionAlumno();
+        jDesktopPane1.add(gestionAlumno);
+        gestionAlumno.setVisible(true);
+    }//GEN-LAST:event_jMIFormAlumnoActionPerformed
+
+    private void jMIFormMateriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIFormMateriaActionPerformed
+        jDesktopPane1.removeAll();
+        jDesktopPane1.repaint();
+        GestionMateria gestionMateria = new GestionMateria();
+        jDesktopPane1.add(gestionMateria);
+        gestionMateria.setVisible(true);
+    }//GEN-LAST:event_jMIFormMateriaActionPerformed
+
+    private void jMeIInscripcionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMeIInscripcionesActionPerformed
+        jDesktopPane1.removeAll();
+        jDesktopPane1.repaint();
+        Inscripciones inscripciones = new Inscripciones();
+        jDesktopPane1.add(inscripciones);
+        inscripciones.setVisible(true);
+    }//GEN-LAST:event_jMeIInscripcionesActionPerformed
+
+    private void jMINotasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMINotasActionPerformed
+        jDesktopPane1.removeAll();
+        jDesktopPane1.repaint();
+        ActualizacionNotas actualizacionNotas = new ActualizacionNotas();
+        jDesktopPane1.add(actualizacionNotas);
+        actualizacionNotas.setVisible(true);
+    }//GEN-LAST:event_jMINotasActionPerformed
+
+    private void jMIAlumMateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIAlumMateActionPerformed
+        jDesktopPane1.removeAll();
+        jDesktopPane1.repaint();
+        ListaMateria listaMateria = new ListaMateria();
+        jDesktopPane1.add(listaMateria);
+        listaMateria.setVisible(true);
+    }//GEN-LAST:event_jMIAlumMateActionPerformed
+
+    private void jMSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMSalirActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_jMSalirActionPerformed
 
     /**
      * @param args the command line arguments

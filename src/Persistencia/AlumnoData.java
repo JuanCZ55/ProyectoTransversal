@@ -41,14 +41,14 @@ public class AlumnoData {
     }
 
     public void actualizarAlumno(Alumno alum) {
-        String sql = "UPDATE alumno SET dni=?,apellido=?,nombre=?,fecha_Nacimiento=? WHERE id_Alumno=?";
+        String sql = "UPDATE alumno SET dni=?,apellido=?,nombre=?,fecha_Nacimiento=? WHERE dni=?";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, alum.getDni());
             ps.setString(2, alum.getApellido());
             ps.setString(3, alum.getNombre());
             ps.setDate(4, Date.valueOf(alum.getFechaNac()));
-            ps.setInt(5, alum.getIdAlumno());
+            ps.setInt(5, alum.getDni());
             int exito = ps.executeUpdate();
             if (exito == 1) {
                 JOptionPane.showMessageDialog(null, "Alumno Modificado");
@@ -59,11 +59,11 @@ public class AlumnoData {
         }
     }
 
-    public void bajaLogica(int id) {
-        String sql = "UPDATE alumno SET estado = 0 WHERE id_Alumno=?";
+    public void bajaLogica(int dni) {
+        String sql = "UPDATE alumno SET estado = 0 WHERE dni=?";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, id);
+            ps.setInt(1, dni);
             int exito = ps.executeUpdate();
             if (exito == 1) {
                 JOptionPane.showMessageDialog(null, "Alumno Eliminado");
@@ -75,11 +75,11 @@ public class AlumnoData {
         }
     }
 
-    public void altaLogica(int id) {
-        String sql = "UPDATE alumno SET estado = 1 WHERE id_Alumno=?";
+    public void altaLogica(int dni) {
+        String sql = "UPDATE alumno SET estado = 1 WHERE dni=?";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, id);
+            ps.setInt(1, dni);
             int exito = ps.executeUpdate();
             if (exito == 1) {
                 JOptionPane.showMessageDialog(null, "Alumno Activo");
@@ -91,16 +91,16 @@ public class AlumnoData {
         }
     }
 
-    public Alumno buscarAlumno(int id) {
-        String sql = "SELECT dni, apellido, nombre, fecha_Nacimiento FROM alumno WHERE id_Alumno = ? AND estado = 1";
+    public Alumno buscarAlumno(int dni) {
+        String sql = "SELECT id_Alumno, dni, apellido, nombre, fecha_Nacimiento FROM alumno WHERE dni = ? AND estado = 1";
         Alumno alumno = null;
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, id);
+            ps.setInt(1, dni);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 alumno = new Alumno();
-                alumno.setIdAlumno(id);
+                alumno.setIdAlumno(rs.getInt("id_Alumno"));
                 alumno.setDni(rs.getInt("dni"));
                 alumno.setApellido(rs.getString("apellido"));
                 alumno.setNombre(rs.getString("nombre"));
