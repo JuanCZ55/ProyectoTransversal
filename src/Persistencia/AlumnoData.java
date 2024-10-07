@@ -4,6 +4,7 @@ import Modelo.Conexion;
 import java.sql.*;
 import Modelo.Alumno;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -131,5 +132,38 @@ public class AlumnoData {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al acceder a la tabla alumnos");
         }
+    }
+
+    public ArrayList<Alumno> listarAlumnos() {
+        String sql = "SELECT * FROM alumno ";
+        int x = 0;
+        Alumno alumno = null;
+        ArrayList<Alumno> lista = new ArrayList<>();
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+
+                alumno = new Alumno();
+                alumno.setIdAlumno(rs.getInt("id_Alumno"));
+                alumno.setDni(rs.getInt("dni"));
+                alumno.setApellido(rs.getString("apellido"));
+                alumno.setNombre(rs.getString("nombre"));
+                alumno.setFechaNac(rs.getDate("fecha_Nacimiento").toLocalDate());
+                alumno.setActivo(rs.getInt("estado") == 1);
+
+                lista.add(alumno);
+                x++;
+            }
+            if (x == 0) {
+                JOptionPane.showMessageDialog(null, "No hay Alumnos");
+            }
+
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla alumnos");
+        }
+
+        return lista;
     }
 }

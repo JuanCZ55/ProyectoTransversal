@@ -58,5 +58,11 @@ public class ProyectoTransversal {
         aux = entrada.nextInt();
         alu.eliminarAlumno(aux);
         System.out.println("<--------------------------------------------->");
+         
+        System.out.println("Lista De Alumnos:\n");
+       
+        for (Alumno al :  alu.listarAlumnos()) {
+            System.out.println(al.toString());
+        }
     }
 }

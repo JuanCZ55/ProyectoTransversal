@@ -6,6 +6,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import org.mariadb.jdbc.Connection;
 
@@ -80,7 +81,6 @@ public class MateriaData {
                 JOptionPane.showMessageDialog(null, "Se activo la Materia " + id);
             }
             ps.close();
-
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al dar el alta a la materia");
         }
@@ -125,5 +125,36 @@ public class MateriaData {
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al acceder a la tabla materia");
         }
+    }
+    
+     public ArrayList<Materia> listarMaterias() {
+        String sql = "SELECT * FROM materia ";
+        int x = 0;
+        Materia mate = null;
+        ArrayList<Materia> lista = new ArrayList<>();
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+
+                mate = new Materia();
+                mate.setIdMateria(rs.getInt("id_Materia"));
+                mate.setNombre(rs.getString("nombre"));
+                mate.setAnioMateria(rs.getInt("año_De_cursada"));
+                mate.setActivo(rs.getInt("estado") == 1);
+
+                lista.add(mate);
+                x++;
+            }
+            if (x == 0) {
+                JOptionPane.showMessageDialog(null, "No hay Materias");
+            }
+
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla materia");
+        }
+
+        return lista;
     }
 }

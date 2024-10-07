@@ -3,12 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/juanz/Documents/NetBeansProjects/ProyectoTransversal/src/Modelo/Alumno.java</file>
-            <file>file:/C:/Users/juanz/Documents/NetBeansProjects/ProyectoTransversal/src/Modelo/Inscripcion.java</file>
             <file>file:/C:/Users/juanz/Documents/NetBeansProjects/ProyectoTransversal/src/Vista/ProyectoTransversal.java</file>
-            <file>file:/C:/Users/juanz/Documents/NetBeansProjects/ProyectoTransversal/src/Modelo/Conexion.java</file>
-            <file>file:/C:/Users/juanz/Documents/NetBeansProjects/ProyectoTransversal/src/Persistencia/AlumnoData.java</file>
-            <file>file:/C:/Users/juanz/Documents/NetBeansProjects/ProyectoTransversal/src/Persistencia/InscripcionData.java</file>
+            <file>file:/C:/Users/juanz/Documents/NetBeansProjects/ProyectoTransversal/src/Modelo/Materia.java</file>
             <file>file:/C:/Users/juanz/Documents/NetBeansProjects/ProyectoTransversal/src/Persistencia/MateriaData.java</file>
         </group>
     </open-files>
