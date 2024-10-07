@@ -7,6 +7,7 @@ package Vista;
 import Modelo.Alumno;
 import Persistencia.AlumnoData;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -62,10 +63,10 @@ public class GestionAlumno extends javax.swing.JInternalFrame {
         jBAct = new javax.swing.JButton();
         jRBEstado = new javax.swing.JRadioButton();
         jSeparator1 = new javax.swing.JSeparator();
-        jTFFecha = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jBActualizar = new javax.swing.JButton();
+        jDCFecha = new com.toedter.calendar.JDateChooser();
 
         jLabel1.setText("Alumnos");
 
@@ -100,7 +101,7 @@ public class GestionAlumno extends javax.swing.JInternalFrame {
             }
         });
 
-        jbDes.setText("Desabilitar");
+        jbDes.setText("Deshabilitar");
         jbDes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbDesActionPerformed(evt);
@@ -119,8 +120,6 @@ public class GestionAlumno extends javax.swing.JInternalFrame {
                 jRBEstadoActionPerformed(evt);
             }
         });
-
-        jTFFecha.setText("jTextField1");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -164,10 +163,10 @@ public class GestionAlumno extends javax.swing.JInternalFrame {
                                 .addComponent(jBBuscar))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTFNombre)
+                                    .addComponent(jTFNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
                                     .addComponent(jTFApellido)
                                     .addComponent(jRBEstado)
-                                    .addComponent(jTFFecha, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE))
+                                    .addComponent(jDCFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
@@ -222,10 +221,10 @@ public class GestionAlumno extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel5))
                     .addComponent(jRBEstado, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addGap(24, 24, 24)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGap(21, 21, 21)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel6)
-                    .addComponent(jTFFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jDCFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBInsert)
@@ -264,15 +263,17 @@ public class GestionAlumno extends javax.swing.JInternalFrame {
             int dni = Integer.parseInt(jTFDocumento.getText());
             String apellido = jTFApellido.getText();
             String nombre = jTFNombre.getText();
-            //-----------------------Verifiacar---------------------------------
-            LocalDate fechN = LocalDate.of(2000, 5, 9);
+            LocalDate fechN = jDCFecha.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             boolean estado = jRBEstado.isSelected();
-            
-            Alumno alum=new Alumno (dni, apellido, nombre, fechN, estado);
+
+            Alumno alum = new Alumno(dni, apellido, nombre, fechN, estado);
             alumnoDate.guardarAlumno(alum);
             actualizarTabla();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error");
+        } catch (NullPointerException e) {
+            JOptionPane.showMessageDialog(null, "Error: Campos Vacios");
+        } catch (NumberFormatException x) {
+            JOptionPane.showMessageDialog(null, "Error: Datos Invalidos");
+
         }
     }//GEN-LAST:event_jBInsertActionPerformed
 
@@ -281,22 +282,22 @@ public class GestionAlumno extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jBActualizarActionPerformed
 
     private void jBModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBModificarActionPerformed
-         try {
+        try {
             int dni = Integer.parseInt(jTFDocumento.getText());
             String apellido = jTFApellido.getText();
-            String nombre = jTFNombre.getText();
-            //-----------------------Verifiacar---------------------------------
-            LocalDate fechN = LocalDate.of(2000, 5, 9);
+            String nombre = jTFNombre.getText();            
+            LocalDate fechN = jDCFecha.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
             boolean estado = jRBEstado.isSelected();
-            
-            Alumno alum=new Alumno (dni, apellido, nombre, fechN, estado);
+
+            Alumno alum = new Alumno(dni, apellido, nombre, fechN, estado);
             alumnoDate.actualizarAlumno(alum);
             actualizarTabla();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error");
+        } catch (NullPointerException e) {
+            JOptionPane.showMessageDialog(null, "Error: Campos Vacios");
         }
-        
-        
+
+
     }//GEN-LAST:event_jBModificarActionPerformed
 
     private void jbDesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbDesActionPerformed
@@ -307,8 +308,8 @@ public class GestionAlumno extends javax.swing.JInternalFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error");
         }
-        
-        
+
+
     }//GEN-LAST:event_jbDesActionPerformed
 
     private void jBActActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBActActionPerformed
@@ -319,21 +320,24 @@ public class GestionAlumno extends javax.swing.JInternalFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error");
         }
-        
+
     }//GEN-LAST:event_jBActActionPerformed
 
     private void jBBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBBuscarActionPerformed
         try {
             int dni = Integer.parseInt(jTFDocumento.getText());
-            
+
             JOptionPane.showMessageDialog(this, alumnoDate.buscarAlumno(dni).toString());
-        }catch(NumberFormatException n){
+        } catch (NumberFormatException n) {
             JOptionPane.showMessageDialog(null, "Error: error de formato");
         }
-        
+
     }//GEN-LAST:event_jBBuscarActionPerformed
-    private void enListar() {
+    private void actualizarTabla() {
+        modelo.setRowCount(0);
+
         for (Alumno aux : alumnoDate.listarAlumnos()) {
+
             modelo.addRow(new Object[]{
                 aux.getIdAlumno(),
                 aux.getDni(),
@@ -344,21 +348,6 @@ public class GestionAlumno extends javax.swing.JInternalFrame {
             });
         }
     }
-    private void actualizarTabla(){
-        modelo.setRowCount(0);
-            
-            for (Alumno aux : alumnoDate.listarAlumnos()) {
-            
-                 modelo.addRow(new Object[]{
-                        aux.getIdAlumno(),
-                        aux.getDni(),
-                        aux.getApellido(),
-                        aux.getNombre(),
-                        aux.getFechaNac(),
-                        aux.isActivo()
-                    });
-        }
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBAct;
@@ -366,6 +355,7 @@ public class GestionAlumno extends javax.swing.JInternalFrame {
     private javax.swing.JButton jBBuscar;
     private javax.swing.JButton jBInsert;
     private javax.swing.JButton jBModificar;
+    private com.toedter.calendar.JDateChooser jDCFecha;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -378,7 +368,6 @@ public class GestionAlumno extends javax.swing.JInternalFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField jTFApellido;
     private javax.swing.JTextField jTFDocumento;
-    private javax.swing.JTextField jTFFecha;
     private javax.swing.JTextField jTFNombre;
     private javax.swing.JTable jTable1;
     private javax.swing.JButton jbDes;

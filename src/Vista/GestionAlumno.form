@@ -57,10 +57,10 @@
                               </Group>
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="jTFNombre" max="32767" attributes="0"/>
+                                      <Component id="jTFNombre" pref="194" max="32767" attributes="0"/>
                                       <Component id="jTFApellido" max="32767" attributes="0"/>
                                       <Component id="jRBEstado" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jTFFecha" alignment="0" pref="194" max="32767" attributes="0"/>
+                                      <Component id="jDCFecha" max="32767" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
@@ -134,10 +134,10 @@
                       </Group>
                       <Component id="jRBEstado" alignment="1" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTFFecha" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                      <Component id="jDCFecha" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -218,7 +218,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="jbDes">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Desabilitar"/>
+            <Property name="text" type="java.lang.String" value="Deshabilitar"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbDesActionPerformed"/>
@@ -238,11 +238,6 @@
           </Events>
         </Component>
         <Component class="javax.swing.JSeparator" name="jSeparator1">
-        </Component>
-        <Component class="javax.swing.JTextField" name="jTFFecha">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="jTextField1"/>
-          </Properties>
         </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane2">
           <AuxValues>
@@ -272,6 +267,8 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBActualizarActionPerformed"/>
           </Events>
+        </Component>
+        <Component class="com.toedter.calendar.JDateChooser" name="jDCFecha">
         </Component>
       </SubComponents>
     </Container>

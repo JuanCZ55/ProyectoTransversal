@@ -44,7 +44,8 @@ public class MateriaData {
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, mate.getNombre());
-            ps.setInt(5, mate.getAnioMateria());
+            ps.setInt(2, mate.getAnioMateria());
+            ps.setInt(3, mate.getIdMateria());
             int exito = ps.executeUpdate();
             if (exito == 1) {
                 JOptionPane.showMessageDialog(null, "Materia Modificada");

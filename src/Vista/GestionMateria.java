@@ -4,17 +4,36 @@
  */
 package Vista;
 
+import Modelo.Materia;
+import Persistencia.MateriaData;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Usuario
  */
 public class GestionMateria extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form GestionMateria
-     */
+    private class NonEditableTableModel extends DefaultTableModel {
+
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    }
+
+    private final NonEditableTableModel modelo = new NonEditableTableModel();
+    private MateriaData materiaData = new MateriaData();
+
     public GestionMateria() {
         initComponents();
+        modelo.addColumn("Id Materia");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Año");
+        modelo.addColumn("Estado");
+        jTable1.setModel(modelo);
+
     }
 
     /**
@@ -37,11 +56,14 @@ public class GestionMateria extends javax.swing.JInternalFrame {
         jTFAnio = new javax.swing.JTextField();
         jBBuscar = new javax.swing.JButton();
         jBNuevo = new javax.swing.JButton();
-        jBEliminar = new javax.swing.JButton();
-        jBGuardar = new javax.swing.JButton();
-        jBSalir = new javax.swing.JButton();
+        jBModificar = new javax.swing.JButton();
+        jBDeshabilitar = new javax.swing.JButton();
+        jBHabilitar = new javax.swing.JButton();
         jRBEstado = new javax.swing.JRadioButton();
         jSeparator1 = new javax.swing.JSeparator();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jBActualizar = new javax.swing.JButton();
 
         jLabel1.setText("Materia");
 
@@ -54,18 +76,63 @@ public class GestionMateria extends javax.swing.JInternalFrame {
         jLabel5.setText("Estado:");
 
         jBBuscar.setText("Buscar");
+        jBBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBBuscarActionPerformed(evt);
+            }
+        });
 
         jBNuevo.setText("Nuevo");
+        jBNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBNuevoActionPerformed(evt);
+            }
+        });
 
-        jBEliminar.setText("Eliminar");
+        jBModificar.setText("Modificar");
+        jBModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBModificarActionPerformed(evt);
+            }
+        });
 
-        jBGuardar.setText("Guardar");
+        jBDeshabilitar.setText("Deshabilitar");
+        jBDeshabilitar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBDeshabilitarActionPerformed(evt);
+            }
+        });
 
-        jBSalir.setText("Salir");
+        jBHabilitar.setText("Habilitar");
+        jBHabilitar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBHabilitarActionPerformed(evt);
+            }
+        });
 
         jRBEstado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jRBEstadoActionPerformed(evt);
+            }
+        });
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        jBActualizar.setText("Actualizar");
+        jBActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBActualizarActionPerformed(evt);
             }
         });
 
@@ -78,12 +145,12 @@ public class GestionMateria extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jBNuevo)
+                        .addGap(18, 18, 18)
+                        .addComponent(jBModificar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jBEliminar)
-                        .addGap(42, 42, 42)
-                        .addComponent(jBGuardar)
+                        .addComponent(jBDeshabilitar)
                         .addGap(45, 45, 45)
-                        .addComponent(jBSalir)
+                        .addComponent(jBHabilitar)
                         .addGap(36, 36, 36))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -98,17 +165,26 @@ public class GestionMateria extends javax.swing.JInternalFrame {
                             .addComponent(jRBEstado)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jTFCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jBBuscar)))
                         .addContainerGap())))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(208, 208, 208)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jSeparator1)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jSeparator1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(208, 208, 208)
+                                .addComponent(jLabel1))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 20, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jBActualizar)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -135,13 +211,17 @@ public class GestionMateria extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel5))
                     .addComponent(jRBEstado, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBNuevo)
-                    .addComponent(jBEliminar)
-                    .addComponent(jBGuardar)
-                    .addComponent(jBSalir))
-                .addGap(66, 66, 66))
+                    .addComponent(jBModificar)
+                    .addComponent(jBDeshabilitar)
+                    .addComponent(jBHabilitar))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jBActualizar)
+                .addGap(257, 257, 257))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -152,7 +232,10 @@ public class GestionMateria extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(315, 315, 315))
         );
 
         pack();
@@ -162,13 +245,84 @@ public class GestionMateria extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jRBEstadoActionPerformed
 
+    private void jBNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBNuevoActionPerformed
+        try {
+            int codigo = Integer.parseInt(jTFCodigo.getText());
+            String nombre = jTFNombre.getText();
+            int anio = Integer.parseInt(jTFAnio.getText());
+            boolean estado = jRBEstado.isSelected();
+
+            Materia mate = new Materia(codigo, nombre, anio, estado);
+            materiaData.guardarMateria(mate);
+            actualizarTabla();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error");
+
+        }
+
+
+    }//GEN-LAST:event_jBNuevoActionPerformed
+
+    private void jBModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBModificarActionPerformed
+        try {
+            int codigo = Integer.parseInt(jTFCodigo.getText());
+            String nombre = jTFNombre.getText();
+            int anio = Integer.parseInt(jTFAnio.getText());
+            boolean estado = jRBEstado.isSelected();
+
+            Materia mate = new Materia(codigo, nombre, anio, estado);
+            materiaData.actualizarMateria(mate);
+            actualizarTabla();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error");
+
+        }
+    }//GEN-LAST:event_jBModificarActionPerformed
+
+    private void jBDeshabilitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBDeshabilitarActionPerformed
+
+        try {
+            int id = Integer.parseInt(jTFCodigo.getText());
+            materiaData.bajaLogica(id);
+            actualizarTabla();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error");
+        }
+    }//GEN-LAST:event_jBDeshabilitarActionPerformed
+
+    private void jBHabilitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBHabilitarActionPerformed
+        try {
+            int id = Integer.parseInt(jTFCodigo.getText());
+            materiaData.altaLogica(id);
+            actualizarTabla();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error");
+        }
+    }//GEN-LAST:event_jBHabilitarActionPerformed
+
+    private void jBBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBBuscarActionPerformed
+        try {
+            int id = Integer.parseInt(jTFCodigo.getText());
+
+            JOptionPane.showMessageDialog(this, materiaData.buscarMateria(id).toString());
+        } catch (NumberFormatException n) {
+            JOptionPane.showMessageDialog(null, "Error: error de formato");
+        }
+    }//GEN-LAST:event_jBBuscarActionPerformed
+
+    private void jBActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBActualizarActionPerformed
+        actualizarTabla();
+
+    }//GEN-LAST:event_jBActualizarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBActualizar;
     private javax.swing.JButton jBBuscar;
-    private javax.swing.JButton jBEliminar;
-    private javax.swing.JButton jBGuardar;
+    private javax.swing.JButton jBDeshabilitar;
+    private javax.swing.JButton jBHabilitar;
+    private javax.swing.JButton jBModificar;
     private javax.swing.JButton jBNuevo;
-    private javax.swing.JButton jBSalir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -176,9 +330,24 @@ public class GestionMateria extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JRadioButton jRBEstado;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField jTFAnio;
     private javax.swing.JTextField jTFCodigo;
     private javax.swing.JTextField jTFNombre;
+    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
+     private void actualizarTabla() {
+        modelo.setRowCount(0);
+
+        for (Materia aux : materiaData.listarMaterias()) {
+
+            modelo.addRow(new Object[]{
+                aux.getIdMateria(),
+                aux.getNombre(),
+                aux.getAnioMateria(),
+                aux.isActivo()
+            });
+        }
+    }
 }
