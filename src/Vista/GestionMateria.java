@@ -246,21 +246,41 @@ public class GestionMateria extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jRBEstadoActionPerformed
 
     private void jBNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBNuevoActionPerformed
+
         try {
+            if (jTFCodigo.getText().isEmpty() || jTFNombre.getText().isEmpty() || jTFAnio.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Llenar todos los campos.");
+                return;
+            }
+
             int codigo = Integer.parseInt(jTFCodigo.getText());
             String nombre = jTFNombre.getText();
             int anio = Integer.parseInt(jTFAnio.getText());
             boolean estado = jRBEstado.isSelected();
 
-            Materia mate = new Materia(codigo, nombre, anio, estado);
-            materiaData.guardarMateria(mate);
+            Materia nuevaMateria = new Materia(codigo, nombre, anio, estado);
+
+           
+            for (Materia listarMateria : materiaData.listarMaterias()) {
+                if (listarMateria.getIdMateria() == nuevaMateria.getIdMateria()) {
+                    JOptionPane.showMessageDialog(null, "La materia ya existe.");
+                    return;
+                }
+            }
+
+            materiaData.guardarMateria(nuevaMateria);
+            JOptionPane.showMessageDialog(null, "Materia guardada correctamente");
             actualizarTabla();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error");
+            
 
-        }
-
-
+            } catch (NumberFormatException e) {
+                
+                JOptionPane.showMessageDialog(null, "Error: Datos numéricos inválidos");
+            } catch (NullPointerException e) {
+                JOptionPane.showMessageDialog(null, "Error: Campos vacíos");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error inesperado");
+            }
     }//GEN-LAST:event_jBNuevoActionPerformed
 
     private void jBModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBModificarActionPerformed

@@ -8,6 +8,8 @@ import Modelo.Alumno;
 import Persistencia.AlumnoData;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.HashSet;
+import java.util.Set;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -40,6 +42,7 @@ public class GestionAlumno extends javax.swing.JInternalFrame {
         modelo.addColumn("Fecha de Nacimiento");
         modelo.addColumn("Estado");
         jTable1.setModel(modelo);
+
     }
 
     @SuppressWarnings("unchecked")
@@ -221,10 +224,13 @@ public class GestionAlumno extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel5))
                     .addComponent(jRBEstado, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addGap(21, 21, 21)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel6)
-                    .addComponent(jDCFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addComponent(jLabel6))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jDCFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBInsert)
@@ -260,21 +266,38 @@ public class GestionAlumno extends javax.swing.JInternalFrame {
 
     private void jBInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBInsertActionPerformed
         try {
+            if (jTFDocumento.getText().isEmpty() || jTFApellido.getText().isEmpty() || jTFNombre.getText().isEmpty() || jDCFecha.getDate() == null) {
+                JOptionPane.showMessageDialog(null, "llenar todos los campos, dni con 8 digitos");
+                return;
+            }
             int dni = Integer.parseInt(jTFDocumento.getText());
             String apellido = jTFApellido.getText();
             String nombre = jTFNombre.getText();
             LocalDate fechN = jDCFecha.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             boolean estado = jRBEstado.isSelected();
 
-            Alumno alum = new Alumno(dni, apellido, nombre, fechN, estado);
-            alumnoDate.guardarAlumno(alum);
-            actualizarTabla();
+            Alumno nuevoAlumno = new Alumno(dni, apellido, nombre, fechN, estado);
+
+            if (nuevoAlumno.getDni() >= 8) {
+                for (Alumno listarAlumno : alumnoDate.listarAlumnos()) {
+                    if (listarAlumno.getDni() == nuevoAlumno.getDni()) {
+                        JOptionPane.showMessageDialog(null, "El alumno ya existe.");
+                        return;
+                    }
+                }
+            } else {
+
+                alumnoDate.guardarAlumno(nuevoAlumno);
+                JOptionPane.showMessageDialog(null, "Alumno guardado correctamente.");
+                actualizarTabla();
+            }
         } catch (NullPointerException e) {
             JOptionPane.showMessageDialog(null, "Error: Campos Vacios");
         } catch (NumberFormatException x) {
             JOptionPane.showMessageDialog(null, "Error: Datos Invalidos");
 
         }
+
     }//GEN-LAST:event_jBInsertActionPerformed
 
     private void jBActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBActualizarActionPerformed
@@ -283,16 +306,32 @@ public class GestionAlumno extends javax.swing.JInternalFrame {
 
     private void jBModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBModificarActionPerformed
         try {
+
+            if (jTFDocumento.getText().isEmpty() || jTFApellido.getText().isEmpty() || jTFNombre.getText().isEmpty() || jDCFecha.getDate() == null) {
+                JOptionPane.showMessageDialog(null, "llenar todos los campos, dni con 8 digitos");
+                return;
+            }
             int dni = Integer.parseInt(jTFDocumento.getText());
             String apellido = jTFApellido.getText();
-            String nombre = jTFNombre.getText();            
+            String nombre = jTFNombre.getText();
             LocalDate fechN = jDCFecha.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
             boolean estado = jRBEstado.isSelected();
 
             Alumno alum = new Alumno(dni, apellido, nombre, fechN, estado);
-            alumnoDate.actualizarAlumno(alum);
-            actualizarTabla();
+            if (alum.getDni() >= 8) {
+                for (Alumno listarAlumno : alumnoDate.listarAlumnos()) {
+                    if (listarAlumno.getDni() == alum.getDni()) {
+                        JOptionPane.showMessageDialog(null, "El alumno ya existe.");
+                        return;
+                    }
+                }
+            } else {
+
+                alumnoDate.actualizarAlumno(alum);
+                JOptionPane.showMessageDialog(null, "Alumno modificado correctamente.");
+                actualizarTabla();
+            }
         } catch (NullPointerException e) {
             JOptionPane.showMessageDialog(null, "Error: Campos Vacios");
         }
@@ -303,8 +342,19 @@ public class GestionAlumno extends javax.swing.JInternalFrame {
     private void jbDesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbDesActionPerformed
         try {
             int dni = Integer.parseInt(jTFDocumento.getText());
-            alumnoDate.bajaLogica(dni);
-            actualizarTabla();
+            if (dni >= 8) {
+                for (Alumno listarAlumno : alumnoDate.listarAlumnos()) {
+                    if (listarAlumno.getDni() == dni) {
+                        alumnoDate.bajaLogica(dni);
+                        actualizarTabla();
+                        JOptionPane.showMessageDialog(null, "Se le dio la baja al alumno");
+                        return;
+                    }
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "DNI invalido debe colocar 8 digitos");
+            }
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error");
         }
@@ -314,9 +364,19 @@ public class GestionAlumno extends javax.swing.JInternalFrame {
 
     private void jBActActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBActActionPerformed
         try {
-            int dni = Integer.parseInt(jTFDocumento.getText());
-            alumnoDate.altaLogica(dni);
-            actualizarTabla();
+             int dni = Integer.parseInt(jTFDocumento.getText());
+            if (dni >= 8) {
+                for (Alumno listarAlumno : alumnoDate.listarAlumnos()) {
+                    if (listarAlumno.getDni() == dni) {
+                        alumnoDate.altaLogica(dni);
+                        actualizarTabla();
+                        JOptionPane.showMessageDialog(null, "Se le dio el alta al alumno");
+                        return;
+                    }
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "DNI invalido debe colocar 8 digitos");
+            }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error");
         }
@@ -326,7 +386,7 @@ public class GestionAlumno extends javax.swing.JInternalFrame {
     private void jBBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBBuscarActionPerformed
         try {
             int dni = Integer.parseInt(jTFDocumento.getText());
-
+            
             JOptionPane.showMessageDialog(this, alumnoDate.buscarAlumno(dni).toString());
         } catch (NumberFormatException n) {
             JOptionPane.showMessageDialog(null, "Error: error de formato");
