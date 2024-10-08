@@ -281,14 +281,14 @@ public class GestionAlumno extends javax.swing.JInternalFrame {
             if (nuevoAlumno.getDni() >= 8) {
                 for (Alumno listarAlumno : alumnoDate.listarAlumnos()) {
                     if (listarAlumno.getDni() == nuevoAlumno.getDni()) {
-                        JOptionPane.showMessageDialog(null, "El alumno ya existe.");
+                        JOptionPane.showMessageDialog(null, "El alumno ya existe");
                         return;
                     }
                 }
             } else {
 
                 alumnoDate.guardarAlumno(nuevoAlumno);
-                JOptionPane.showMessageDialog(null, "Alumno guardado correctamente.");
+                JOptionPane.showMessageDialog(null, "Alumno guardado correctamente");
                 actualizarTabla();
             }
         } catch (NullPointerException e) {
@@ -322,14 +322,14 @@ public class GestionAlumno extends javax.swing.JInternalFrame {
             if (alum.getDni() >= 8) {
                 for (Alumno listarAlumno : alumnoDate.listarAlumnos()) {
                     if (listarAlumno.getDni() == alum.getDni()) {
-                        JOptionPane.showMessageDialog(null, "El alumno ya existe.");
+                        JOptionPane.showMessageDialog(null, "El alumno ya existe");
                         return;
                     }
                 }
             } else {
 
                 alumnoDate.actualizarAlumno(alum);
-                JOptionPane.showMessageDialog(null, "Alumno modificado correctamente.");
+                JOptionPane.showMessageDialog(null, "Alumno modificado correctamente");
                 actualizarTabla();
             }
         } catch (NullPointerException e) {

@@ -1,7 +1,9 @@
 package Vista;
 
 import Modelo.Alumno;
+import Modelo.Materia;
 import Persistencia.AlumnoData;
+import Persistencia.MateriaData;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.Scanner;
@@ -20,6 +22,7 @@ public class ProyectoTransversal {
         Alumno alumnoParaEliminar = new Alumno(99999999, "Apellido", "Nombre", LocalDate.of(2000, 2, 9), true);
         
         AlumnoData alu = new AlumnoData();
+        MateriaData materiaData = new MateriaData();
         
         System.out.println("<--------------------------------------------->");
         System.out.println("Se agregaran los alumnos");
@@ -63,6 +66,62 @@ public class ProyectoTransversal {
        
         for (Alumno al :  alu.listarAlumnos()) {
             System.out.println(al.toString());
+        }
+        
+        // test para algunas materias
+        Materia matematicas = new Materia("Matemáticas", 2024, true);
+        Materia fisica = new Materia("Física", 2024, true);
+        Materia quimica = new Materia("Química", 2024, true);
+        Materia historia = new Materia("Historia", 2024, true);
+        Materia biologia = new Materia("Biología", 2024, true);
+      
+        System.out.println("<--------------------------------------------->");
+        System.out.println("Se guardan las materias");
+        materiaData.guardarMateria(matematicas);
+        materiaData.guardarMateria(fisica);
+        materiaData.guardarMateria(quimica);
+        materiaData.guardarMateria(historia);
+        materiaData.guardarMateria(biologia);
+
+     
+        System.out.println("<--------------------------------------------->");
+        System.out.println("Se actualizará una materia\nDigite la ID de la materia: ");
+        aux = entrada.nextInt();
+        materiaData.actualizarMateria(new Materia(aux, "Matemáticas Avanzadas", 2024, true));
+
+        
+        System.out.println("<--------------------------------------------->");
+        System.out.println("Se da baja una materia\nDigite la ID de la materia: ");
+        aux = entrada.nextInt();
+        materiaData.bajaLogica(aux);
+
+       
+        System.out.println("<--------------------------------------------->");
+        System.out.println("Alta de una materia\nDigite la ID de la materia: ");
+        aux = entrada.nextInt();
+        materiaData.altaLogica(aux);
+
+       
+        System.out.println("<--------------------------------------------->");
+        System.out.println("Se buscará una materia\nDigite la ID de la materia: ");
+        aux = entrada.nextInt();
+        Materia materiaEncontrada = materiaData.buscarMateria(aux);
+        if (materiaEncontrada != null) {
+            System.out.println("Materia \n" + materiaEncontrada.toString());
+        }else{
+            System.out.println("La Materia con ID "+ aux +" no se a encontrado");
+        }
+
+        System.out.println("<--------------------------------------------->");
+        System.out.println("Se eliminará una materia\nDigite la ID de la materia: ");
+        aux = entrada.nextInt();
+        materiaData.eliminarMateria(aux);
+        
+      
+        System.out.println("<--------------------------------------------->");
+        System.out.println("Lista de Materias:\n");
+        for (Materia mate : materiaData.listarMaterias()) {
+            System.out.println(mate.toString());
         }
     }
 }

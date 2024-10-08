@@ -73,7 +73,7 @@ public class MateriaData {
     }
 
     public void altaLogica(int id) {
-        String sql = "UPDATE alumno SET estado = 1 WHERE id_Materia=?";
+        String sql = "UPDATE materia SET estado = 1 WHERE id_Materia=?";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, id);

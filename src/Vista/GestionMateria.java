@@ -249,7 +249,7 @@ public class GestionMateria extends javax.swing.JInternalFrame {
 
         try {
             if (jTFCodigo.getText().isEmpty() || jTFNombre.getText().isEmpty() || jTFAnio.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Llenar todos los campos.");
+                JOptionPane.showMessageDialog(null, "Llenar todos los campos");
                 return;
             }
 
@@ -260,10 +260,9 @@ public class GestionMateria extends javax.swing.JInternalFrame {
 
             Materia nuevaMateria = new Materia(codigo, nombre, anio, estado);
 
-           
             for (Materia listarMateria : materiaData.listarMaterias()) {
                 if (listarMateria.getIdMateria() == nuevaMateria.getIdMateria()) {
-                    JOptionPane.showMessageDialog(null, "La materia ya existe.");
+                    JOptionPane.showMessageDialog(null, "La materia ya existe");
                     return;
                 }
             }
@@ -271,57 +270,137 @@ public class GestionMateria extends javax.swing.JInternalFrame {
             materiaData.guardarMateria(nuevaMateria);
             JOptionPane.showMessageDialog(null, "Materia guardada correctamente");
             actualizarTabla();
-            
 
-            } catch (NumberFormatException e) {
-                
-                JOptionPane.showMessageDialog(null, "Error: Datos numéricos inválidos");
-            } catch (NullPointerException e) {
-                JOptionPane.showMessageDialog(null, "Error: Campos vacíos");
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Error inesperado");
-            }
+        } catch (NumberFormatException e) {
+
+            JOptionPane.showMessageDialog(null, "Error: Datos numéricos inválidos");
+        } catch (NullPointerException e) {
+            JOptionPane.showMessageDialog(null, "Error: Campos vacíos");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error inesperado");
+        }
     }//GEN-LAST:event_jBNuevoActionPerformed
 
     private void jBModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBModificarActionPerformed
         try {
+            boolean materiaEncontrada = false;
+
+            if (jTFCodigo.getText().isEmpty() || jTFNombre.getText().isEmpty() || jTFAnio.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Llenar todos los campos");
+                return;
+            }
+
             int codigo = Integer.parseInt(jTFCodigo.getText());
             String nombre = jTFNombre.getText();
             int anio = Integer.parseInt(jTFAnio.getText());
             boolean estado = jRBEstado.isSelected();
 
-            Materia mate = new Materia(codigo, nombre, anio, estado);
-            materiaData.actualizarMateria(mate);
-            actualizarTabla();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error");
+            Materia materiaExistente = new Materia(codigo, nombre, anio, estado);
 
+            for (Materia listarMateria : materiaData.listarMaterias()) {
+                if (listarMateria.getIdMateria() == materiaExistente.getIdMateria()) {
+                    materiaEncontrada = true;
+                    break;
+                }
+            }
+
+            if (!materiaEncontrada) {
+                JOptionPane.showMessageDialog(null, "La materia no se encontro");
+                return; // este return te saca del metodo por lo tanto no sigue hacia abajo, 
+                //en el caso de no encontrar la materia
+            }
+
+            materiaData.actualizarMateria(materiaExistente);
+            JOptionPane.showMessageDialog(null, "Materia actualizada correctamente");
+            actualizarTabla();
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Error: Datos numéricos inválidos");
+        } catch (NullPointerException e) {
+            JOptionPane.showMessageDialog(null, "Error: Campos vacíos");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error inesperado");
         }
     }//GEN-LAST:event_jBModificarActionPerformed
 
     private void jBDeshabilitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBDeshabilitarActionPerformed
 
         try {
+            boolean materiaEncontrada = false;
+            if (jTFCodigo.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "El Campo no pueden estar vacios");
+                return;
+            }
             int id = Integer.parseInt(jTFCodigo.getText());
+
+            
+            for (Materia listarMateria : materiaData.listarMaterias()) {
+                if (listarMateria.getIdMateria() == id) {
+                    materiaEncontrada = true;
+                    break;
+                }
+            }
+
+            if (!materiaEncontrada) {
+                JOptionPane.showMessageDialog(null, "La materia con el código ingresado no se encuentra");
+                return;
+            }
             materiaData.bajaLogica(id);
+            JOptionPane.showMessageDialog(null, "Materia dada de baja correctamente");
             actualizarTabla();
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Error Código inválido, debe ser un número");
+        } catch (NullPointerException e) {
+            JOptionPane.showMessageDialog(null, "Error Campos vacíos");
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error");
+            JOptionPane.showMessageDialog(null, "Error inesperado");
         }
     }//GEN-LAST:event_jBDeshabilitarActionPerformed
 
     private void jBHabilitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBHabilitarActionPerformed
-        try {
+           try {
+
+            boolean materiaEncontrada = false;
+            
+            if (jTFCodigo.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "El Campo no pueden estar vacios");
+                return;
+            }
             int id = Integer.parseInt(jTFCodigo.getText());
+
+            
+            for (Materia listarMateria : materiaData.listarMaterias()) {
+                if (listarMateria.getIdMateria() == id) {
+                    materiaEncontrada = true;
+                    break;
+                }
+            }
+
+            if (!materiaEncontrada) {
+                JOptionPane.showMessageDialog(null, "La materia con el código ingresado no se encuentra");
+                return;
+            }
             materiaData.altaLogica(id);
             actualizarTabla();
+            JOptionPane.showMessageDialog(null, "Materia dada de Alta correctamente");
+            
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Error Código inválido, debe ser un número");
+        } catch (NullPointerException e) {
+            JOptionPane.showMessageDialog(null, "Error Campos vacíos");
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error");
+            JOptionPane.showMessageDialog(null, "Error inesperado");
         }
     }//GEN-LAST:event_jBHabilitarActionPerformed
 
     private void jBBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBBuscarActionPerformed
         try {
+            if (jTFCodigo.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "El Campo no pueden estar vacios");
+                return;
+            }
             int id = Integer.parseInt(jTFCodigo.getText());
 
             JOptionPane.showMessageDialog(this, materiaData.buscarMateria(id).toString());
