@@ -1,22 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
- */
 package Vista;
 
 import Modelo.Alumno;
 import Persistencia.AlumnoData;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.HashSet;
-import java.util.Set;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author Usuario
- */
 public class GestionAlumno extends javax.swing.JInternalFrame {
 
     private class NonEditableTableModel extends DefaultTableModel {
@@ -115,12 +105,6 @@ public class GestionAlumno extends javax.swing.JInternalFrame {
         jBAct.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBActActionPerformed(evt);
-            }
-        });
-
-        jRBEstado.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRBEstadoActionPerformed(evt);
             }
         });
 
@@ -224,23 +208,21 @@ public class GestionAlumno extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel5))
                     .addComponent(jRBEstado, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addComponent(jLabel6))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jDCFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(17, 17, 17)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jBInsert)
+                            .addComponent(jBModificar)
+                            .addComponent(jbDes)
+                            .addComponent(jBAct))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDCFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jBInsert)
-                    .addComponent(jBModificar)
-                    .addComponent(jbDes)
-                    .addComponent(jBAct))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
-                .addComponent(jBActualizar)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(jBActualizar))
+                    .addComponent(jLabel6))
                 .addContainerGap(29, Short.MAX_VALUE))
         );
 
@@ -260,16 +242,19 @@ public class GestionAlumno extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jRBEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBEstadoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jRBEstadoActionPerformed
-
     private void jBInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBInsertActionPerformed
         try {
-            if (jTFDocumento.getText().isEmpty() || jTFApellido.getText().isEmpty() || jTFNombre.getText().isEmpty() || jDCFecha.getDate() == null) {
-                JOptionPane.showMessageDialog(null, "llenar todos los campos, dni con 8 digitos");
+
+            if (jTFDocumento.getText().length() != 8) {
+                JOptionPane.showMessageDialog(null, "El DNI debe contener 8 digitos");
                 return;
             }
+
+            if (jTFDocumento.getText().isEmpty() || jTFApellido.getText().isEmpty() || jTFNombre.getText().isEmpty() || jDCFecha.getDate() == null) {
+                JOptionPane.showMessageDialog(null, "Llenar todos los campos");
+                return;
+            }
+
             int dni = Integer.parseInt(jTFDocumento.getText());
             String apellido = jTFApellido.getText();
             String nombre = jTFNombre.getText();
@@ -278,19 +263,9 @@ public class GestionAlumno extends javax.swing.JInternalFrame {
 
             Alumno nuevoAlumno = new Alumno(dni, apellido, nombre, fechN, estado);
 
-            if (nuevoAlumno.getDni() >= 8) {
-                for (Alumno listarAlumno : alumnoDate.listarAlumnos()) {
-                    if (listarAlumno.getDni() == nuevoAlumno.getDni()) {
-                        JOptionPane.showMessageDialog(null, "El alumno ya existe");
-                        return;
-                    }
-                }
-            } else {
+            alumnoDate.guardarAlumno(nuevoAlumno);
+            actualizarTabla();
 
-                alumnoDate.guardarAlumno(nuevoAlumno);
-                JOptionPane.showMessageDialog(null, "Alumno guardado correctamente");
-                actualizarTabla();
-            }
         } catch (NullPointerException e) {
             JOptionPane.showMessageDialog(null, "Error: Campos Vacios");
         } catch (NumberFormatException x) {
@@ -306,88 +281,75 @@ public class GestionAlumno extends javax.swing.JInternalFrame {
 
     private void jBModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBModificarActionPerformed
         try {
+            
 
             if (jTFDocumento.getText().isEmpty() || jTFApellido.getText().isEmpty() || jTFNombre.getText().isEmpty() || jDCFecha.getDate() == null) {
-                JOptionPane.showMessageDialog(null, "llenar todos los campos, dni con 8 digitos");
+                JOptionPane.showMessageDialog(null, "llenar todos los campos");
                 return;
             }
+            if( jTFApellido.getText().charAt(0)==' ' || jTFNombre.getText().charAt(0)==' '){
+                JOptionPane.showMessageDialog(null, "Ingrese los datos correctamente");
+                return;
+            }
+
             int dni = Integer.parseInt(jTFDocumento.getText());
             String apellido = jTFApellido.getText();
             String nombre = jTFNombre.getText();
             LocalDate fechN = jDCFecha.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-
             boolean estado = jRBEstado.isSelected();
 
             Alumno alum = new Alumno(dni, apellido, nombre, fechN, estado);
-            if (alum.getDni() >= 8) {
-                for (Alumno listarAlumno : alumnoDate.listarAlumnos()) {
-                    if (listarAlumno.getDni() == alum.getDni()) {
-                        JOptionPane.showMessageDialog(null, "El alumno ya existe");
-                        return;
-                    }
-                }
-            } else {
 
-                alumnoDate.actualizarAlumno(alum);
-                JOptionPane.showMessageDialog(null, "Alumno modificado correctamente");
-                actualizarTabla();
-            }
+            alumnoDate.actualizarAlumno(alum);
+            actualizarTabla();
+
         } catch (NullPointerException e) {
             JOptionPane.showMessageDialog(null, "Error: Campos Vacios");
         }
-
-
     }//GEN-LAST:event_jBModificarActionPerformed
 
     private void jbDesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbDesActionPerformed
         try {
-            int dni = Integer.parseInt(jTFDocumento.getText());
-            if (dni >= 8) {
-                for (Alumno listarAlumno : alumnoDate.listarAlumnos()) {
-                    if (listarAlumno.getDni() == dni) {
-                        alumnoDate.bajaLogica(dni);
-                        actualizarTabla();
-                        JOptionPane.showMessageDialog(null, "Se le dio la baja al alumno");
-                        return;
-                    }
-                }
-            } else {
-                JOptionPane.showMessageDialog(null, "DNI invalido debe colocar 8 digitos");
+            if (jTFDocumento.getText().isEmpty() && jTFDocumento.getText().length() != 8) {
+                JOptionPane.showMessageDialog(null, "Ingrese el DNI correctamente");
+                return;
             }
 
+            int dni = Integer.parseInt(jTFDocumento.getText());
+
+            alumnoDate.bajaLogica(dni);
+            actualizarTabla();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error");
+            JOptionPane.showMessageDialog(null, "Error: error de la Baja Logica");
         }
-
-
     }//GEN-LAST:event_jbDesActionPerformed
 
     private void jBActActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBActActionPerformed
         try {
-             int dni = Integer.parseInt(jTFDocumento.getText());
-            if (dni >= 8) {
-                for (Alumno listarAlumno : alumnoDate.listarAlumnos()) {
-                    if (listarAlumno.getDni() == dni) {
-                        alumnoDate.altaLogica(dni);
-                        actualizarTabla();
-                        JOptionPane.showMessageDialog(null, "Se le dio el alta al alumno");
-                        return;
-                    }
-                }
-            } else {
-                JOptionPane.showMessageDialog(null, "DNI invalido debe colocar 8 digitos");
+            if (jTFDocumento.getText().isEmpty() && jTFDocumento.getText().length() != 8) {
+                JOptionPane.showMessageDialog(null, "Ingrese el DNI correctamente");
+                return;
             }
+
+            int dni = Integer.parseInt(jTFDocumento.getText());
+
+            alumnoDate.altaLogica(dni);
+            actualizarTabla();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error");
         }
-
     }//GEN-LAST:event_jBActActionPerformed
 
     private void jBBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBBuscarActionPerformed
         try {
+            if (jTFDocumento.getText().isEmpty() &&  jTFDocumento.getText().length()!=8){
+                JOptionPane.showMessageDialog(null, "Ingrese el DNI correctamente");
+                return;
+            }
             int dni = Integer.parseInt(jTFDocumento.getText());
-            
-            JOptionPane.showMessageDialog(this, alumnoDate.buscarAlumno(dni).toString());
+            if(alumnoDate.buscarAlumno(dni)!=null){
+                JOptionPane.showMessageDialog(this, alumnoDate.buscarAlumno(dni).toString());
+            }            
         } catch (NumberFormatException n) {
             JOptionPane.showMessageDialog(null, "Error: error de formato");
         }

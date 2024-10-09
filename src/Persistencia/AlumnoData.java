@@ -32,8 +32,13 @@ public class AlumnoData {
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) {
                 alum.setIdAlumno(rs.getInt(1));
-                JOptionPane.showMessageDialog(null, "Alumno Guardado Existosamente pa");
+                JOptionPane.showMessageDialog(null, "Alumno Guardado Existosamente");
             }
+            //No influye
+            else{
+                JOptionPane.showMessageDialog(null, "El Alumno ya existe");
+            }
+            //
             ps.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al acceder a la tabla alumnos");
@@ -52,6 +57,8 @@ public class AlumnoData {
             int exito = ps.executeUpdate();
             if (exito == 1) {
                 JOptionPane.showMessageDialog(null, "Alumno Modificado");
+            } else{
+                JOptionPane.showMessageDialog(null, "Alumno no encontrado");
             }
             ps.close();
         } catch (SQLException ex) {
@@ -67,6 +74,8 @@ public class AlumnoData {
             int exito = ps.executeUpdate();
             if (exito == 1) {
                 JOptionPane.showMessageDialog(null, "Alumno Eliminado");
+            }else{
+                JOptionPane.showMessageDialog(null, "Alumno no encontrado");
             }
             ps.close();
 

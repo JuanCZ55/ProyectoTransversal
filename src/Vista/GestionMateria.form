@@ -19,16 +19,12 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+          <Component id="jPanel1" alignment="1" min="-2" max="-2" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="1" attributes="0">
-              <EmptySpace max="32767" attributes="0"/>
-              <Component id="jPanel1" min="-2" pref="485" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="315" max="-2" attributes="0"/>
-          </Group>
+          <Component id="jPanel1" alignment="0" pref="506" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -58,18 +54,18 @@
                               <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="91" max="-2" attributes="0"/>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jTFAnio" alignment="0" min="-2" pref="194" max="-2" attributes="0"/>
-                              <Component id="jTFNombre" alignment="0" min="-2" pref="194" max="-2" attributes="0"/>
-                              <Component id="jRBEstado" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Group type="102" alignment="0" attributes="0">
+                              <Component id="jTFNombre" min="-2" pref="194" max="-2" attributes="0"/>
+                              <Group type="102" attributes="0">
                                   <Component id="jTFCodigo" min="-2" pref="194" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
+                                  <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
                                   <Component id="jBBuscar" min="-2" max="-2" attributes="0"/>
                               </Group>
+                              <Component id="jTFAnio" alignment="0" min="-2" pref="194" max="-2" attributes="0"/>
+                              <Component id="jRBEstado" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>

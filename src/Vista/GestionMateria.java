@@ -158,15 +158,15 @@ public class GestionMateria extends javax.swing.JInternalFrame {
                             .addComponent(jLabel3)
                             .addComponent(jLabel4)
                             .addComponent(jLabel5))
-                        .addGap(91, 91, 91)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTFAnio, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTFNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jRBEstado)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jTFCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jBBuscar)))
+                                .addGap(58, 58, 58)
+                                .addComponent(jBBuscar))
+                            .addComponent(jTFAnio, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jRBEstado))
                         .addContainerGap())))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -228,14 +228,11 @@ public class GestionMateria extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(315, 315, 315))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 498, Short.MAX_VALUE)
         );
 
         pack();
@@ -248,27 +245,19 @@ public class GestionMateria extends javax.swing.JInternalFrame {
     private void jBNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBNuevoActionPerformed
 
         try {
-            if (jTFCodigo.getText().isEmpty() || jTFNombre.getText().isEmpty() || jTFAnio.getText().isEmpty()) {
+            if (jTFNombre.getText().isEmpty() || jTFAnio.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Llenar todos los campos");
                 return;
             }
 
-            int codigo = Integer.parseInt(jTFCodigo.getText());
+            
             String nombre = jTFNombre.getText();
             int anio = Integer.parseInt(jTFAnio.getText());
             boolean estado = jRBEstado.isSelected();
 
-            Materia nuevaMateria = new Materia(codigo, nombre, anio, estado);
-
-            for (Materia listarMateria : materiaData.listarMaterias()) {
-                if (listarMateria.getIdMateria() == nuevaMateria.getIdMateria()) {
-                    JOptionPane.showMessageDialog(null, "La materia ya existe");
-                    return;
-                }
-            }
+            Materia nuevaMateria = new Materia(nombre, anio, estado);
 
             materiaData.guardarMateria(nuevaMateria);
-            JOptionPane.showMessageDialog(null, "Materia guardada correctamente");
             actualizarTabla();
 
         } catch (NumberFormatException e) {
@@ -283,10 +272,12 @@ public class GestionMateria extends javax.swing.JInternalFrame {
 
     private void jBModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBModificarActionPerformed
         try {
-            boolean materiaEncontrada = false;
-
             if (jTFCodigo.getText().isEmpty() || jTFNombre.getText().isEmpty() || jTFAnio.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Llenar todos los campos");
+                return;
+            }
+            if( jTFNombre.getText().charAt(0)==' ' ){
+                JOptionPane.showMessageDialog(null, "Ingrese los datos correctamente");
                 return;
             }
 
@@ -297,21 +288,7 @@ public class GestionMateria extends javax.swing.JInternalFrame {
 
             Materia materiaExistente = new Materia(codigo, nombre, anio, estado);
 
-            for (Materia listarMateria : materiaData.listarMaterias()) {
-                if (listarMateria.getIdMateria() == materiaExistente.getIdMateria()) {
-                    materiaEncontrada = true;
-                    break;
-                }
-            }
-
-            if (!materiaEncontrada) {
-                JOptionPane.showMessageDialog(null, "La materia no se encontro");
-                return; // este return te saca del metodo por lo tanto no sigue hacia abajo, 
-                //en el caso de no encontrar la materia
-            }
-
             materiaData.actualizarMateria(materiaExistente);
-            JOptionPane.showMessageDialog(null, "Materia actualizada correctamente");
             actualizarTabla();
 
         } catch (NumberFormatException e) {
@@ -326,27 +303,13 @@ public class GestionMateria extends javax.swing.JInternalFrame {
     private void jBDeshabilitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBDeshabilitarActionPerformed
 
         try {
-            boolean materiaEncontrada = false;
             if (jTFCodigo.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "El Campo no pueden estar vacios");
                 return;
             }
             int id = Integer.parseInt(jTFCodigo.getText());
 
-            
-            for (Materia listarMateria : materiaData.listarMaterias()) {
-                if (listarMateria.getIdMateria() == id) {
-                    materiaEncontrada = true;
-                    break;
-                }
-            }
-
-            if (!materiaEncontrada) {
-                JOptionPane.showMessageDialog(null, "La materia con el código ingresado no se encuentra");
-                return;
-            }
             materiaData.bajaLogica(id);
-            JOptionPane.showMessageDialog(null, "Materia dada de baja correctamente");
             actualizarTabla();
 
         } catch (NumberFormatException e) {
@@ -360,31 +323,14 @@ public class GestionMateria extends javax.swing.JInternalFrame {
 
     private void jBHabilitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBHabilitarActionPerformed
            try {
-
-            boolean materiaEncontrada = false;
-            
             if (jTFCodigo.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "El Campo no pueden estar vacios");
                 return;
             }
             int id = Integer.parseInt(jTFCodigo.getText());
-
             
-            for (Materia listarMateria : materiaData.listarMaterias()) {
-                if (listarMateria.getIdMateria() == id) {
-                    materiaEncontrada = true;
-                    break;
-                }
-            }
-
-            if (!materiaEncontrada) {
-                JOptionPane.showMessageDialog(null, "La materia con el código ingresado no se encuentra");
-                return;
-            }
             materiaData.altaLogica(id);
             actualizarTabla();
-            JOptionPane.showMessageDialog(null, "Materia dada de Alta correctamente");
-            
 
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Error Código inválido, debe ser un número");
@@ -402,8 +348,11 @@ public class GestionMateria extends javax.swing.JInternalFrame {
                 return;
             }
             int id = Integer.parseInt(jTFCodigo.getText());
-
-            JOptionPane.showMessageDialog(this, materiaData.buscarMateria(id).toString());
+            
+            if(materiaData.buscarMateria(id)!=null){
+                JOptionPane.showMessageDialog(this, materiaData.buscarMateria(id).toString());
+            }
+            
         } catch (NumberFormatException n) {
             JOptionPane.showMessageDialog(null, "Error: error de formato");
         }
@@ -411,7 +360,6 @@ public class GestionMateria extends javax.swing.JInternalFrame {
 
     private void jBActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBActualizarActionPerformed
         actualizarTabla();
-
     }//GEN-LAST:event_jBActualizarActionPerformed
 
 

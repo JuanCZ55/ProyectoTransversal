@@ -49,6 +49,8 @@ public class MateriaData {
             int exito = ps.executeUpdate();
             if (exito == 1) {
                 JOptionPane.showMessageDialog(null, "Materia Modificada");
+            }else{
+                JOptionPane.showMessageDialog(null, "No se pudo modificar la materia");
             }
             ps.close();
         } catch (SQLException ex) {
@@ -57,13 +59,15 @@ public class MateriaData {
     }
 
     public void bajaLogica(int id) {
-        String sql = "UPDATE materia SET estado = 0 WHERE id_Materia=?";
+        String sql = "UPDATE materia SET estado = 0 WHERE id_Materia=? AND estado = 1";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, id);
             int exito = ps.executeUpdate();
             if (exito == 1) {
                 JOptionPane.showMessageDialog(null, "Se dio de baja la Materia " + id);
+            } else{
+                JOptionPane.showMessageDialog(null, "La Materia ya fue dada de baja");
             }
             ps.close();
 
@@ -73,13 +77,15 @@ public class MateriaData {
     }
 
     public void altaLogica(int id) {
-        String sql = "UPDATE materia SET estado = 1 WHERE id_Materia=?";
+        String sql = "UPDATE materia SET estado = 1 WHERE id_Materia=? AND estado = 0";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, id);
             int exito = ps.executeUpdate();
             if (exito == 1) {
                 JOptionPane.showMessageDialog(null, "Se activo la Materia " + id);
+            }else{
+                JOptionPane.showMessageDialog(null, "La Materia ya fue habilitada");
             }
             ps.close();
         } catch (SQLException ex) {
@@ -100,6 +106,7 @@ public class MateriaData {
                 mate.setNombre(rs.getString("nombre"));
                 mate.setAnioMateria(rs.getInt("año_De_cursada"));
                 mate.setActivo(rs.getInt("estado") == 1);
+                
             } else {
                 JOptionPane.showMessageDialog(null, "No existe esa Materia");
             }
