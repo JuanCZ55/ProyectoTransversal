@@ -17,14 +17,13 @@ public class InscripcionData {
         con= (Connection) Conexion.getConexion();
     }
     
-    public void inscripcionAluMat(Alumno alumno , Materia materia,Inscripcion inscripcion){
+    public void inscripcionAluMat(Inscripcion inscripcion){
         String sql = "INSERT INTO inscripcion (nota, idAlumno, idMateria) VALUES (?, ?, ?)";
-        
          try {
             PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setDouble(1, inscripcion.getNota());
-            ps.setInt(2, alumno.getIdAlumno());
-            ps.setInt(3, materia.getIdMateria());
+            ps.setInt(2, inscripcion.getAlumno().getIdAlumno());
+            ps.setInt(3, inscripcion.getMateria().getIdMateria());
             ps.executeUpdate();
 
             
