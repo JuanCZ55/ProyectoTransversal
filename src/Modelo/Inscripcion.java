@@ -56,5 +56,9 @@ public class Inscripcion {
     public void setNota(double nota) {
         this.nota = nota;
     }
+
+    public void getAlumno(Alumno buscarAlumId) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
    
 }
