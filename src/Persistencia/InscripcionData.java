@@ -57,12 +57,12 @@ public class InscripcionData {
 
             } else {
                 JOptionPane.showMessageDialog(null, "No se puedo actualizar las notas");
-
             }
             ps.close();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al actualizar la nota");
         }
+        
     }
 
     public void borrarInscripcion(int idAlum, int idMate) {

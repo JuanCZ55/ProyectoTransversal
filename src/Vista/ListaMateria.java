@@ -4,17 +4,34 @@
  */
 package Vista;
 
+import Modelo.Alumno;
+import Modelo.Materia;
+import Persistencia.InscripcionData;
+import Persistencia.MateriaData;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Usuario
  */
 public class ListaMateria extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form ListaMateria
-     */
+    private class NonEditableTableModel extends DefaultTableModel {
+
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    }
+
+    private final NonEditableTableModel modelo = new NonEditableTableModel();
     public ListaMateria() {
         initComponents();
+         modelo.addColumn("Id ");
+        modelo.addColumn("DNI");
+        modelo.addColumn("Apellido");
+        modelo.addColumn("Nombre");
+        jTable1.setModel(modelo);
     }
 
     /**
@@ -39,7 +56,11 @@ public class ListaMateria extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Seleccione una Materia:");
 
-        jCBMateria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jCBMateria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCBMateriaActionPerformed(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -108,10 +129,38 @@ public class ListaMateria extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jCBMateriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBMateriaActionPerformed
+        Materia mate =new Materia();
+        mate=(Materia) jCBMateria.getSelectedItem();
+        actualizarTabla(mate.getIdMateria());
 
+    }//GEN-LAST:event_jCBMateriaActionPerformed
+
+private void cargarMaterias (){
+    MateriaData data =new MateriaData();
+    for (Materia mate : data.listarMaterias()) {
+        jCBMateria.addItem( mate);
+    }
+    
+}
+    private void actualizarTabla(int id) {
+        modelo.setRowCount(0);
+
+        InscripcionData inData =new InscripcionData(); 
+        for (Alumno aux : inData.listaAlumXMate(id)) {
+             modelo.addRow(new Object[]{
+                aux.getIdAlumno(),
+                aux.getDni(),
+                aux.getApellido(),
+                aux.getNombre()
+               
+            });
+        }
+       
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBSalir;
-    private javax.swing.JComboBox<String> jCBMateria;
+    private javax.swing.JComboBox<Materia> jCBMateria;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

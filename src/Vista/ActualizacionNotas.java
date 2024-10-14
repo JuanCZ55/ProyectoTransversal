@@ -4,17 +4,32 @@
  */
 package Vista;
 
+import Modelo.Alumno;
+import Modelo.Inscripcion;
+import Modelo.Materia;
+import Persistencia.InscripcionData;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.event.TableModelListener;
+
+
 /**
  *
  * @author Usuario
  */
 public class ActualizacionNotas extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form ActualizacionNotas
-     */
+    InscripcionData data = new InscripcionData();
+    DefaultTableModel modelo;
+
     public ActualizacionNotas() {
+        this.modelo = new DefaultTableModel();
+
         initComponents();
+        cargarAlumnnos();
+        modelo.addColumn("Codigo ");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Nota");
+        jTable1.setModel(modelo);
     }
 
     /**
@@ -41,7 +56,11 @@ public class ActualizacionNotas extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Seleccione un Alumno:");
 
-        jCBAlumno.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jCBAlumno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCBAlumnoActionPerformed(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -57,6 +76,11 @@ public class ActualizacionNotas extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(jTable1);
 
         jBGuardar.setText("Guardar");
+        jBGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBGuardarActionPerformed(evt);
+            }
+        });
 
         jBSalir.setText("Salir");
 
@@ -123,11 +147,33 @@ public class ActualizacionNotas extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jCBAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBAlumnoActionPerformed
+        Alumno alumno = (Alumno) jCBAlumno.getSelectedItem();
+        jTable1.removeAll();
+        for (Inscripcion aux : data.listaInscriPorAlum(alumno.getIdAlumno())) {
+            modelo.addRow(new Object[]{
+                aux.getMateria().getIdMateria(),
+                aux.getMateria().getNombre(),
+                aux.getNota()
+            });
+        }
+    }//GEN-LAST:event_jCBAlumnoActionPerformed
 
+    private void jBGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBGuardarActionPerformed
+//boton guardar
+    
+
+    }//GEN-LAST:event_jBGuardarActionPerformed
+
+    private void cargarAlumnnos() {
+        for (Inscripcion inscrip : data.listaInscripciones()) {
+            jCBAlumno.addItem(inscrip.getAlumno());
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBGuardar;
     private javax.swing.JButton jBSalir;
-    private javax.swing.JComboBox<String> jCBAlumno;
+    private javax.swing.JComboBox<Alumno> jCBAlumno;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
