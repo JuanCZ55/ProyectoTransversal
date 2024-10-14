@@ -8,8 +8,10 @@ import Modelo.Alumno;
 import Modelo.Inscripcion;
 import Modelo.Materia;
 import Persistencia.InscripcionData;
+import java.util.ArrayList;
+import java.util.HashSet;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.event.TableModelListener;
 
 
 /**
@@ -18,6 +20,7 @@ import javax.swing.event.TableModelListener;
  */
 public class ActualizacionNotas extends javax.swing.JInternalFrame {
 
+    ArrayList <Inscripcion> listaMaterias = new ArrayList();
     InscripcionData data = new InscripcionData();
     DefaultTableModel modelo;
 
@@ -149,7 +152,7 @@ public class ActualizacionNotas extends javax.swing.JInternalFrame {
 
     private void jCBAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBAlumnoActionPerformed
         Alumno alumno = (Alumno) jCBAlumno.getSelectedItem();
-        jTable1.removeAll();
+        modelo.setRowCount(0);
         for (Inscripcion aux : data.listaInscriPorAlum(alumno.getIdAlumno())) {
             modelo.addRow(new Object[]{
                 aux.getMateria().getIdMateria(),
@@ -157,17 +160,33 @@ public class ActualizacionNotas extends javax.swing.JInternalFrame {
                 aux.getNota()
             });
         }
+        listaMaterias=data.listaInscriPorAlum(alumno.getIdAlumno());
     }//GEN-LAST:event_jCBAlumnoActionPerformed
 
     private void jBGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBGuardarActionPerformed
-//boton guardar
+        int idAlumn = ((Alumno)jCBAlumno.getSelectedItem()).getIdAlumno();
+        int aux=0;
+        for (int i = 0; i < jTable1.getRowCount()-1; i++) {
+            aux+=data.actualizarNota(idAlumn, Integer.parseInt((String) jTable1.getValueAt(i, 0)), Double.parseDouble((String) jTable1.getValueAt(i, 2)));
+        }
+        
+       if(aux>0){
+           JOptionPane.showMessageDialog(this, "Se actualizo una o mas notas");
+       }else{
+           JOptionPane.showMessageDialog(this, "No se actualizao ninguna nota");
+       }
     
 
     }//GEN-LAST:event_jBGuardarActionPerformed
 
     private void cargarAlumnnos() {
-        for (Inscripcion inscrip : data.listaInscripciones()) {
-            jCBAlumno.addItem(inscrip.getAlumno());
+        ArrayList<Alumno> lis;
+        lis=data.listaInscripcionesAlumnoUnicos();
+        int i=0;
+        while(i<lis.size()){
+            
+            jCBAlumno.addItem(lis.get(i));
+            i++;
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables

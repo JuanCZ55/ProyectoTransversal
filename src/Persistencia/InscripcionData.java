@@ -44,33 +44,29 @@ public class InscripcionData {
         }
     }
 
-    public void actualizarNota(int idAlum, int idMater, double nota) {
+    public int actualizarNota(int idAlum, int idMater, double nota) {
         String sql = "UPDATE inscripcion SET nota = ? WHERE id_Alumno = ? AND  id_Materia = ? ";
+        int filas = 0;
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setDouble(1, nota);
             ps.setInt(2, idAlum);
             ps.setInt(3, idMater);
-            int filas = ps.executeUpdate();
-            if (filas > 0) {
-                JOptionPane.showMessageDialog(null, "Nota Actualizada Exitosamente.");
-
-            } else {
-                JOptionPane.showMessageDialog(null, "No se puedo actualizar las notas");
-            }
+            filas = ps.executeUpdate();
             ps.close();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al actualizar la nota");
         }
         
+        return filas;
     }
 
     public void borrarInscripcion(int idAlum, int idMate) {
         String sql = "DELETE FROM inscripcion WHERE id_Alumno = ? AND  id_Materia = ? ";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, idMate);
-            ps.setInt(2, idAlum);
+            ps.setInt(1, idAlum);
+            ps.setInt(2, idMate);
             int exito = ps.executeUpdate();
             if (exito > 0) {
                 JOptionPane.showMessageDialog(null, "Inscripcion Eliminada");
@@ -202,6 +198,26 @@ public class InscripcionData {
             ps.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al Listar Alumnos por Materia ");
+        }
+
+        return lista;
+    }
+    
+    public ArrayList<Alumno> listaInscripcionesAlumnoUnicos() {
+        
+        ArrayList<Alumno> lista = new ArrayList<>();
+        String sql = "SELECT DISTINCT id_Alumno FROM inscripcion";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+               Alumno alum = new Alumno();
+               alum = ad.buscarAlumId(rs.getInt("id_Alumno"));
+                lista.add(alum);
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al listar las inscripciones");
         }
 
         return lista;

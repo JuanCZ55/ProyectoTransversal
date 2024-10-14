@@ -20,6 +20,7 @@ public class Inscripciones extends javax.swing.JInternalFrame {
 
     public Inscripciones() {
         initComponents();
+        this.setSize(500, 346);
         jBInscribir.setEnabled(false);
         jBAnular.setEnabled(false);
         cargarAlumnnos();
@@ -106,22 +107,24 @@ public class Inscripciones extends javax.swing.JInternalFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addGap(0, 45, Short.MAX_VALUE)
+                                .addGap(0, 13, Short.MAX_VALUE)
                                 .addComponent(jRBInscripta)
-                                .addGap(61, 61, 61)
+                                .addGap(39, 39, 39)
                                 .addComponent(jRBNoInscrip)
-                                .addGap(39, 39, 39))
+                                .addGap(73, 73, 73))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel3)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jCBMateria, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jCBMateria, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel2)
-                                        .addGap(65, 65, 65)
-                                        .addComponent(jCBAlumno, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                                        .addComponent(jCBAlumno, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGap(47, 47, 47))))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(118, 118, 118)
                         .addComponent(jLabel1)
@@ -130,11 +133,11 @@ public class Inscripciones extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jBInscribir)
-                .addGap(55, 55, 55)
+                .addGap(31, 31, 31)
                 .addComponent(jBAnular)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(47, 47, 47)
                 .addComponent(jBSalir)
-                .addGap(38, 38, 38))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -160,7 +163,7 @@ public class Inscripciones extends javax.swing.JInternalFrame {
                     .addComponent(jBInscribir)
                     .addComponent(jBAnular)
                     .addComponent(jBSalir))
-                .addContainerGap(49, Short.MAX_VALUE))
+                .addContainerGap(53, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -171,7 +174,7 @@ public class Inscripciones extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -223,11 +226,11 @@ public class Inscripciones extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jBInscribirActionPerformed
 
     private void jBAnularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBAnularActionPerformed
-        Inscripcion inscripcion = new Inscripcion();
-        inscripcion.setAlumno((Alumno) jCBAlumno.getSelectedItem());
-        inscripcion.setMateria((Materia) jCBMateria.getSelectedItem());
-        inscripcion.setNota(0);
-        insData.borrarInscripcion(inscripcion.getAlumno().getIdAlumno(), inscripcion.getMateria().getIdMateria());
+        int idAlum = ((Alumno) jCBAlumno.getSelectedItem()).getIdAlumno();
+        int idMate= ((Materia) jCBMateria.getSelectedItem()).getIdMateria();
+        
+        System.out.println(idAlum +"   "+ idMate);
+        insData.borrarInscripcion(idAlum,idMate);
         jCBMateria.removeAll();
         jRBInscripta.setSelected(false);
         jRBNoInscrip.setSelected(false);
