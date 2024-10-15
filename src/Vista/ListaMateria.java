@@ -136,7 +136,7 @@ public class ListaMateria extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jCBMateriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBMateriaActionPerformed
-       Materia mate =new Materia();
+       Materia mate;
         mate=(Materia) jCBMateria.getSelectedItem();
         actualizarTabla(mate.getIdMateria());
 

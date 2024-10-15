@@ -117,9 +117,9 @@ public class Menu extends javax.swing.JFrame {
         jMenuBar1.add(jMConsultas);
 
         jMenu1.setText("Salir");
-        jMenu1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenu1ActionPerformed(evt);
+        jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu1MouseClicked(evt);
             }
         });
         jMenuBar1.add(jMenu1);
@@ -180,9 +180,9 @@ public class Menu extends javax.swing.JFrame {
         listaMateria.setVisible(true);
     }//GEN-LAST:event_jMIAlumMateActionPerformed
 
-    private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
+    private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
       salirDelPrograma();
-    }//GEN-LAST:event_jMenu1ActionPerformed
+    }//GEN-LAST:event_jMenu1MouseClicked
 
     
     public static void main(String args[]) {

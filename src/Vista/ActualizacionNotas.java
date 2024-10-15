@@ -30,7 +30,7 @@ public class ActualizacionNotas extends javax.swing.JInternalFrame {
         modelo.addColumn("Nombre");
         modelo.addColumn("Nota");
         jTable1.setModel(modelo);
-       
+
     }
 
     /**
@@ -117,8 +117,8 @@ public class ActualizacionNotas extends javax.swing.JInternalFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(38, 38, 38)
                         .addComponent(jLabel2)
-                        .addGap(117, 117, 117)
-                        .addComponent(jCBAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(33, 33, 33)
+                        .addComponent(jCBAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -164,16 +164,16 @@ public class ActualizacionNotas extends javax.swing.JInternalFrame {
     private void jCBAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBAlumnoActionPerformed
         Alumno alumno = (Alumno) jCBAlumno.getSelectedItem();
         if (alumno != null) {
-            modelo.setRowCount(0); 
+            modelo.setRowCount(0);
             for (Inscripcion aux : data.listaInscriPorAlum(alumno.getIdAlumno())) {
-                    modelo.addRow(new Object[]{
-                        aux.getMateria().getIdMateria(),
-                        aux.getMateria().getNombre(),
-                        aux.getNota()
-                    });
-                }
+                modelo.addRow(new Object[]{
+                    aux.getMateria().getIdMateria(),
+                    aux.getMateria().getNombre(),
+                    aux.getNota()
+                });
+            }
         } else {
-                JOptionPane.showMessageDialog(this, "Por favor, seleccione un alumno válido.");
+            JOptionPane.showMessageDialog(this, "Por favor, primero cargue un alumno.");
         }
 
     }//GEN-LAST:event_jCBAlumnoActionPerformed
@@ -183,7 +183,6 @@ public class ActualizacionNotas extends javax.swing.JInternalFrame {
             for (int i = 0; i < jTable1.getRowCount(); i++) {
                 int idAlumn = ((Alumno) jCBAlumno.getSelectedItem()).getIdAlumno();
                 Object dato = jTable1.getValueAt(i, 2);
-                System.out.println(dato.getClass());
                 if (dato == "" || dato == " ") {
                     int id = (Integer) jTable1.getValueAt(i, 0);
                     double nota = 0;
@@ -198,7 +197,6 @@ public class ActualizacionNotas extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Error de formato 'letras no'");
         }
 
-
     }//GEN-LAST:event_jBGuardarActionPerformed
 
     private void jBSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSalirActionPerformed
@@ -210,8 +208,8 @@ public class ActualizacionNotas extends javax.swing.JInternalFrame {
         lis = data.listaInscripcionesAlumnoUnicos();
         if (lis != null && !lis.isEmpty()) {
             for (Alumno alumno : lis) {
-                 jCBAlumno.addItem(alumno);
-                }
+                jCBAlumno.addItem(alumno);
+            }
         } else {
             JOptionPane.showMessageDialog(this, "No hay alumnos para cargar.");
         }

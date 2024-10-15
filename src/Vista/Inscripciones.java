@@ -53,6 +53,12 @@ public class Inscripciones extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Seleccione un Alumno:");
 
+        jCBAlumno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCBAlumnoActionPerformed(evt);
+            }
+        });
+
         jLabel3.setText("Listado de Materias");
 
         jRBInscripta.setText("Materias Inscriptas");
@@ -167,7 +173,7 @@ public class Inscripciones extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(324, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -215,7 +221,7 @@ public class Inscripciones extends javax.swing.JInternalFrame {
         inscripcion.setMateria((Materia) jCBMateria.getSelectedItem());
         inscripcion.setNota(0);
         insData.inscripcionAluMat(inscripcion);
-        jCBMateria.removeAll();
+        jCBMateria.removeAllItems();
         jRBNoInscrip.setSelected(false);
         jRBInscripta.setSelected(false);
         jBAnular.setEnabled(false);
@@ -224,11 +230,10 @@ public class Inscripciones extends javax.swing.JInternalFrame {
 
     private void jBAnularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBAnularActionPerformed
         int idAlum = ((Alumno) jCBAlumno.getSelectedItem()).getIdAlumno();
-        int idMate= ((Materia) jCBMateria.getSelectedItem()).getIdMateria();
-        
-        System.out.println(idAlum +"   "+ idMate);
-        insData.borrarInscripcion(idAlum,idMate);
-        jCBMateria.removeAll();
+        int idMate = ((Materia) jCBMateria.getSelectedItem()).getIdMateria();
+
+        insData.borrarInscripcion(idAlum, idMate);
+        jCBMateria.removeAllItems();
         jRBInscripta.setSelected(false);
         jRBNoInscrip.setSelected(false);
         jBAnular.setEnabled(false);
@@ -236,6 +241,16 @@ public class Inscripciones extends javax.swing.JInternalFrame {
 
 
     }//GEN-LAST:event_jBAnularActionPerformed
+
+    private void jCBAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBAlumnoActionPerformed
+        jCBMateria.removeAllItems();
+        jRBInscripta.setSelected(false);
+        jRBNoInscrip.setSelected(false);
+        jBAnular.setEnabled(false);
+        jBInscribir.setEnabled(false);
+
+
+    }//GEN-LAST:event_jCBAlumnoActionPerformed
     private void cargarAlumnnos() {
 
         AlumnoData alData = new AlumnoData();
