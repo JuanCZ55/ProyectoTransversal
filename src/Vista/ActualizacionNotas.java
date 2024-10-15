@@ -30,6 +30,7 @@ public class ActualizacionNotas extends javax.swing.JInternalFrame {
         modelo.addColumn("Nombre");
         modelo.addColumn("Nota");
         jTable1.setModel(modelo);
+       
     }
 
     /**
@@ -91,6 +92,11 @@ public class ActualizacionNotas extends javax.swing.JInternalFrame {
         });
 
         jBSalir.setText("Salir");
+        jBSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBSalirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -157,14 +163,19 @@ public class ActualizacionNotas extends javax.swing.JInternalFrame {
 
     private void jCBAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBAlumnoActionPerformed
         Alumno alumno = (Alumno) jCBAlumno.getSelectedItem();
-        modelo.setRowCount(0);
-        for (Inscripcion aux : data.listaInscriPorAlum(alumno.getIdAlumno())) {
-            modelo.addRow(new Object[]{
-                aux.getMateria().getIdMateria(),
-                aux.getMateria().getNombre(),
-                aux.getNota()
-            });
+        if (alumno != null) {
+            modelo.setRowCount(0); 
+            for (Inscripcion aux : data.listaInscriPorAlum(alumno.getIdAlumno())) {
+                    modelo.addRow(new Object[]{
+                        aux.getMateria().getIdMateria(),
+                        aux.getMateria().getNombre(),
+                        aux.getNota()
+                    });
+                }
+        } else {
+                JOptionPane.showMessageDialog(this, "Por favor, seleccione un alumno válido.");
         }
+
     }//GEN-LAST:event_jCBAlumnoActionPerformed
 
     private void jBGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBGuardarActionPerformed
@@ -190,14 +201,19 @@ public class ActualizacionNotas extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_jBGuardarActionPerformed
 
+    private void jBSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSalirActionPerformed
+        dispose();
+    }//GEN-LAST:event_jBSalirActionPerformed
+
     private void cargarAlumnnos() {
         ArrayList<Alumno> lis;
         lis = data.listaInscripcionesAlumnoUnicos();
-        int i = 0;
-        while (i < lis.size()) {
-
-            jCBAlumno.addItem(lis.get(i));
-            i++;
+        if (lis != null && !lis.isEmpty()) {
+            for (Alumno alumno : lis) {
+                 jCBAlumno.addItem(alumno);
+                }
+        } else {
+            JOptionPane.showMessageDialog(this, "No hay alumnos para cargar.");
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables

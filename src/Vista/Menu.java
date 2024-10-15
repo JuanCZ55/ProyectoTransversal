@@ -2,6 +2,7 @@ package Vista;
 
 import java.time.Clock;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 public class Menu extends javax.swing.JFrame {
 
@@ -15,8 +16,15 @@ public class Menu extends javax.swing.JFrame {
         this.setTitle("Universidad ULP");
         this.setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
     }
-
+       
+    private void salirDelPrograma() {
+        int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de que deseas salir?", "Confirmar salida", JOptionPane.YES_NO_OPTION);
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -37,7 +45,7 @@ public class Menu extends javax.swing.JFrame {
         jMINotas = new javax.swing.JMenuItem();
         jMConsultas = new javax.swing.JMenu();
         jMIAlumMate = new javax.swing.JMenuItem();
-        jMSalir = new javax.swing.JMenu();
+        jMenu1 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -108,13 +116,13 @@ public class Menu extends javax.swing.JFrame {
 
         jMenuBar1.add(jMConsultas);
 
-        jMSalir.setText("Salir");
-        jMSalir.addActionListener(new java.awt.event.ActionListener() {
+        jMenu1.setText("Salir");
+        jMenu1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMSalirActionPerformed(evt);
+                jMenu1ActionPerformed(evt);
             }
         });
-        jMenuBar1.add(jMSalir);
+        jMenuBar1.add(jMenu1);
 
         setJMenuBar(jMenuBar1);
 
@@ -172,13 +180,11 @@ public class Menu extends javax.swing.JFrame {
         listaMateria.setVisible(true);
     }//GEN-LAST:event_jMIAlumMateActionPerformed
 
-    private void jMSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMSalirActionPerformed
-        System.exit(0);
-    }//GEN-LAST:event_jMSalirActionPerformed
+    private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
+      salirDelPrograma();
+    }//GEN-LAST:event_jMenu1ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -221,8 +227,8 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMIFormMateria;
     private javax.swing.JMenuItem jMINotas;
     private javax.swing.JMenu jMMateria;
-    private javax.swing.JMenu jMSalir;
     private javax.swing.JMenuItem jMeIInscripciones;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     // End of variables declaration//GEN-END:variables
 }

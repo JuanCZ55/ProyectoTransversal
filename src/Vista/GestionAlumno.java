@@ -32,6 +32,7 @@ public class GestionAlumno extends javax.swing.JInternalFrame {
         modelo.addColumn("Fecha de Nacimiento");
         modelo.addColumn("Estado");
         jTable1.setModel(modelo);
+        actualizarTabla();
 
     }
 

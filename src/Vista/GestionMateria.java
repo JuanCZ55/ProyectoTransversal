@@ -33,6 +33,8 @@ public class GestionMateria extends javax.swing.JInternalFrame {
         modelo.addColumn("Año");
         modelo.addColumn("Estado");
         jTable1.setModel(modelo);
+        actualizarTabla();
+        
 
     }
 

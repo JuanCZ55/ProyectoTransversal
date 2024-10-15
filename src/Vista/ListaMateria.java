@@ -32,7 +32,7 @@ public class ListaMateria extends javax.swing.JInternalFrame {
         modelo.addColumn("Apellido");
         modelo.addColumn("Nombre");
         jTable1.setModel(modelo);
-//        cargarMaterias();
+        cargarMaterias();
     }
 
     /**
@@ -77,6 +77,11 @@ public class ListaMateria extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(jTable1);
 
         jBSalir.setText("Salir");
+        jBSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBSalirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -136,6 +141,10 @@ public class ListaMateria extends javax.swing.JInternalFrame {
         actualizarTabla(mate.getIdMateria());
 
     }//GEN-LAST:event_jCBMateriaActionPerformed
+
+    private void jBSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSalirActionPerformed
+        dispose();
+    }//GEN-LAST:event_jBSalirActionPerformed
 
 private void cargarMaterias (){
     MateriaData data =new MateriaData();

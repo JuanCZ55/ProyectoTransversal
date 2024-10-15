@@ -139,8 +139,6 @@ public class AlumnoData {
                 alumno.setNombre(rs.getString("nombre"));
                 alumno.setFechaNac(rs.getDate("fecha_Nacimiento").toLocalDate());
                 alumno.setActivo(true);
-            } else {
-                JOptionPane.showMessageDialog(null, "No existe ese Alumno");
             }
             ps.close();
         } catch (SQLException ex) {
