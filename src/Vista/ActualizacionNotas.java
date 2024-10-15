@@ -9,10 +9,8 @@ import Modelo.Inscripcion;
 import Modelo.Materia;
 import Persistencia.InscripcionData;
 import java.util.ArrayList;
-import java.util.HashSet;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-
 
 /**
  *
@@ -20,7 +18,6 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ActualizacionNotas extends javax.swing.JInternalFrame {
 
-    ArrayList <Inscripcion> listaMaterias = new ArrayList();
     InscripcionData data = new InscripcionData();
     DefaultTableModel modelo;
 
@@ -75,7 +72,15 @@ public class ActualizacionNotas extends javax.swing.JInternalFrame {
             new String [] {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, true, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         jBGuardar.setText("Guardar");
@@ -160,31 +165,37 @@ public class ActualizacionNotas extends javax.swing.JInternalFrame {
                 aux.getNota()
             });
         }
-        listaMaterias=data.listaInscriPorAlum(alumno.getIdAlumno());
     }//GEN-LAST:event_jCBAlumnoActionPerformed
 
     private void jBGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBGuardarActionPerformed
-        int idAlumn = ((Alumno)jCBAlumno.getSelectedItem()).getIdAlumno();
-        int aux=0;
-        for (int i = 0; i < jTable1.getRowCount()-1; i++) {
-            aux+=data.actualizarNota(idAlumn, Integer.parseInt((String) jTable1.getValueAt(i, 0)), Double.parseDouble((String) jTable1.getValueAt(i, 2)));
+        try {
+            for (int i = 0; i < jTable1.getRowCount(); i++) {
+                int idAlumn = ((Alumno) jCBAlumno.getSelectedItem()).getIdAlumno();
+                Object dato = jTable1.getValueAt(i, 2);
+                System.out.println(dato.getClass());
+                if (dato == "" || dato == " ") {
+                    int id = (Integer) jTable1.getValueAt(i, 0);
+                    double nota = 0;
+                    data.actualizarNota(idAlumn, id, nota);
+                } else if (dato instanceof String) {
+                    int id = (Integer) jTable1.getValueAt(i, 0);
+                    double nota = Double.parseDouble((String) dato);
+                    data.actualizarNota(idAlumn, id, nota);
+                }
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Error de formato 'letras no'");
         }
-        
-       if(aux>0){
-           JOptionPane.showMessageDialog(this, "Se actualizo una o mas notas");
-       }else{
-           JOptionPane.showMessageDialog(this, "No se actualizao ninguna nota");
-       }
-    
+
 
     }//GEN-LAST:event_jBGuardarActionPerformed
 
     private void cargarAlumnnos() {
         ArrayList<Alumno> lis;
-        lis=data.listaInscripcionesAlumnoUnicos();
-        int i=0;
-        while(i<lis.size()){
-            
+        lis = data.listaInscripcionesAlumnoUnicos();
+        int i = 0;
+        while (i < lis.size()) {
+
             jCBAlumno.addItem(lis.get(i));
             i++;
         }

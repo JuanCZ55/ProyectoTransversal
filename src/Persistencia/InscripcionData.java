@@ -44,7 +44,7 @@ public class InscripcionData {
         }
     }
 
-    public int actualizarNota(int idAlum, int idMater, double nota) {
+    public void actualizarNota(int idAlum, int idMater, double nota) {
         String sql = "UPDATE inscripcion SET nota = ? WHERE id_Alumno = ? AND  id_Materia = ? ";
         int filas = 0;
         try {
@@ -53,12 +53,17 @@ public class InscripcionData {
             ps.setInt(2, idAlum);
             ps.setInt(3, idMater);
             filas = ps.executeUpdate();
+             if (filas > 0) {
+                JOptionPane.showMessageDialog(null, "Nota Actualizada Exitosamente.");
+
+            } else {
+                JOptionPane.showMessageDialog(null, "No se puedo actualizar las notas");
+            }
             ps.close();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al actualizar la nota");
         }
         
-        return filas;
     }
 
     public void borrarInscripcion(int idAlum, int idMate) {
